@@ -1,0 +1,358 @@
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: normal;
+    font-size: 16px;
+}
+
+.content {
+    padding: 1rem;
+    background: #F7F7F7;
+}
+
+@media (min-width:768px) {
+    .content {
+        padding: 56px 48px;
+    }
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.main {
+    padding: 58px 24px;
+    border-radius: 24px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    max-width: 608px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p {
+    margin-bottom: 2rem;
+}
+
+.greeting {
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+
+.subtitle {
+    color: #000;
+    text-align: center;
+    font-style: normal;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.cta {
+    border-radius: 8px;
+    background: #484BF1;
+    padding: 12px 24px;
+    color: #FFFFFF;
+    font-weight: 700;
+    display: inline-block;
+}
+
+a:hover {
+    opacity: .8;
+}
+
+.text-sm {
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    width: 100px;
+}
+
+.golden-circle-wrapper {
+    position: relative;
+    padding-top: 24px;
+    padding-bottom: 40px;
+}
+
+@media (min-width:600px) {
+    .golden-circle-wrapper {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.golden-circle-wrapper img {
+    display: block;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+}
+
+@media (min-width:600px) {
+    .golden-circle-wrapper img {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+.section.circle {
+    position: relative;
+}
+
+.text-sm.why {
+    position: absolute;
+    top: 0;
+    left: calc(50% + 60px);
+    transform: translateX(-50%);
+}
+
+.text-sm.how {
+    position: absolute;
+    bottom: -2px;
+    left: calc(50% + 80px);
+    transform: translateX(-50%);
+}
+
+.text-sm.what {
+    position: absolute;
+    bottom: 12px;
+    left: calc(50% - 90px);
+    transform: translateX(-50%);
+    width: 90px;
+}
+
+@media (min-width:600px) {
+    .text-sm.why {
+        position: absolute;
+        top: 50%;
+        left: calc(50% + 180px);
+        transform: translate(-50%, -50%);
+    }
+
+    .text-sm.how {
+        position: absolute;
+        bottom: 0;
+        left: calc(50% + 160px);
+        transform: translateX(-50%);
+    }
+
+    .text-sm.what {
+        position: absolute;
+        bottom: 0;
+        left: calc(50% - 160px);
+        transform: translateX(-50%);
+        width: 124px;
+    }
+}
+
+.why::before,
+.how::before,
+.what::before {
+    position: absolute;
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+.why::before {
+    background-color: #59EDF7;
+    top: 4px;
+    left: -8px;
+}
+
+.how::before {
+    background-color: #6648FF;
+    top: 4px;
+    left: -8px;
+}
+
+.what::before {
+    background-color: #FFC444;
+    bottom: 20px;
+    right: -8px;
+}
+
+.m-auto {
+    margin: auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.section.numbers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 424px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.numbers-item {
+    text-align: center;
+    padding: 31.448px 36px;
+    border-radius: 12px;
+    border: 0.983px solid rgba(102, 72, 255, 0.20);
+    background: #FFF;
+    box-shadow: 0px 1.955306887626648px 4.8882670402526855px 0px rgba(0, 0, 0, 0.05);
+    width: 200px;
+    height: 200px;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-bottom: 12px;
+}
+
+.numbers-item .logo-wrapper {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(102, 72, 255, 0.10);
+    margin-bottom: 12px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numbers-title {
+    color: #201F23;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 39.31px;
+    margin-bottom: 12px;
+}
+
+.numbers-desc {
+    color: rgba(32, 31, 35, 0.60);
+    text-align: center;
+    font-size: 14px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.section.jobs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 424px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.jobs-item {
+    padding: 10px 12px;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(102, 72, 255, 0.20);
+    background: #FFF;
+    box-shadow: 0px 0.6510364413261414px 1.3020728826522827px 0px rgba(0, 0, 0, 0.05);
+    font-size: 10px;
+    font-weight: 400;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.jobs-img-wrapper {
+    margin-bottom: 12px;
+}
+
+.jobs-num {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    padding: 14px 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background: #484BF1;
+    color: #FFFFFF;
+    font-weight: 700;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+
+.section.contact {
+    font-size: 10px;
+    display: flex;
+    max-width: 424px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (min-width:500px) {
+    .section.contact {
+        justify-content: flex-start;
+    }
+
+}
+
+.contact .info-wrapper>* {
+    margin-bottom: 4px;
+}
+
+.contact .title {
+    margin-bottom: 12px;
+}
+
+.contact .name {
+    color: #6648FF;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.mb-1 {
+    margin-bottom: 12px;
+}
+
+.contact .profile-wrapper {
+    width: 102px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #6648FF;
+    margin-right: 12px;
+    margin-bottom: 12px;
+}
+
+.contact .profile-wrapper img {
+    object-fit: cover;
+}
+
+.section.hr {
+    max-width: 424px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid #828282;
+}
+
+.social-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 210px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.social-wrapper {
+    width: 16px;
+    height: 16px;
+}
