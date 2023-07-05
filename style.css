@@ -17,6 +17,7 @@ body {
 .content {
   padding: 1rem;
   background: #f7f7f7;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -491,13 +492,7 @@ a:hover {
   font-family: ProximaBold;
 }
 
-.icon {
-  /* width: 12px;
-   height: 12px; */
-}
-
 .icon img {
-  /* padding-top: 2px; */
   position: relative;
   top: 2px;
   width: 12px;
