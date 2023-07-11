@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- reset.css -->
     <style>
       html,
@@ -102,11 +108,6 @@
         height: 68px;
       }
 
-      .logo img {
-        height: 100%;
-        width: auto;
-      }
-
       .main {
         padding: 58px 24px;
         border-radius: 24px;
@@ -178,12 +179,6 @@
         margin-bottom: 12px;
       }
 
-      .contact .name {
-        color: #6648ff;
-        font-weight: 700;
-        font-size: 1rem;
-      }
-
       .mb-1 {
         margin-bottom: 12px;
       }
@@ -197,60 +192,10 @@
         margin-right: 12px;
         margin-bottom: 12px;
       }
-
-      .contact .profile-wrapper img {
-        object-fit: cover;
-        width: 100px;
-        height: 100px;
-      }
-
-      .section {
-        margin-bottom: 2rem;
-      }
-
-      .section.hr {
-        max-width: 424px;
-        margin-left: auto;
-        margin-right: auto;
-        border-bottom: 1px solid #828282;
-      }
-
-      .social-container {
-        max-width: 220px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .social-wrapper {
-        display: inline-block;
-        /* width: 20px; */
-        height: 16px;
-        margin-left: 4px;
-        margin-right: 4px;
-      }
-
-      .social-wrapper img {
-        height: 16px;
-        /* width: 20px; */
-      }
-
+      
       .important {
         font-weight: bold;
         font-style: italic;
-      }
-
-      .icon {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        position: relative;
-        top: 2px;
-        margin-right: 4px;
-      }
-
-      .icon img {
-        width: auto;
-        height: 12px;
       }
     </style>
     <!-- infographic.css -->
@@ -268,10 +213,24 @@
         position: relative;
         padding-top: 24px;
         padding-bottom: 24px;
-        background-position: center;
-        background-repeat: no-repeat;
         height: 160px;
         box-sizing: content-box;
+      }
+
+      .golden-circle-wrapper .d-sm {
+        display: block;
+      }
+      .golden-circle-wrapper .d-lg {
+        display: none;
+      }
+
+      @media (min-width: 600px) {
+        .golden-circle-wrapper .d-sm {
+          display: none !important;
+        }
+        .golden-circle-wrapper .d-lg {
+          display: block !important;
+        }
       }
 
       .golden-desc-sm .why,
@@ -321,8 +280,10 @@
       .golden-circle-wrapper img {
         display: block;
         margin: auto;
-        width: 160px;
-        height: 160px;
+      }
+      .golden-circle-wrapper .d-lg img {
+        display: block;
+        margin: auto;
       }
       .section.circle {
         position: relative;
@@ -452,9 +413,7 @@
       }
 
       .section.numbers {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        text-align: center;
         max-width: 424px;
         margin-left: auto;
         margin-right: auto;
@@ -469,8 +428,12 @@
         background: #fff;
         box-shadow: 0px 1.955306887626648px 4.8882670402526855px 0px
           rgba(0, 0, 0, 0.05);
-        width: calc(50% - 6px);
-        margin-bottom: 6px;
+        /* width: calc(50% - 6px); */
+        width: 200px;
+        margin-bottom: 12px;
+        display: inline-block;
+        margin-left: 4px;
+        margin-right: 4px;
       }
 
       @media (min-width: 500px) {
@@ -482,8 +445,6 @@
           padding: 31.448px 36px;
           width: 200px;
           height: 200px;
-          margin-left: 6px;
-          margin-right: 6px;
         }
       }
 
@@ -493,39 +454,25 @@
         border-radius: 50%;
         background: rgba(102, 72, 255, 0.1);
         margin-bottom: 12px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-
-      .numbers-item .logo-wrapper.squares {
-      }
-
-      .numbers-item .logo-wrapper.calendar {
-      }
-
-      .numbers-item .logo-wrapper.users {
-      }
-
-      .numbers-item .logo-wrapper.price-tag {
-        background-position: center;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
       }
 
       .numbers-title {
         color: #201f23;
-        font-size: 1rem;
+        font-size: 1.5rem;
         font-style: normal;
         font-weight: 700;
         line-height: 1.5;
+        margin-bottom: 12px;
       }
 
       .numbers-desc {
         color: rgba(32, 31, 35, 0.6);
         text-align: center;
-        font-size: 12px;
-        font-family: Inter;
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
         font-style: normal;
         font-weight: 500;
         line-height: 1.5;
@@ -534,31 +481,29 @@
       @media (min-width: 500px) {
         .numbers-title {
           font-size: 2rem;
-          margin-bottom: 12px;
-          line-height: 39.31px;
+          /* margin-bottom: 12px; */
+          /* line-height: 39.31px; */
         }
         .numbers-desc {
-          font-size: 14px;
-          line-height: 20px;
+          /* font-size: 14px; */
+          /* line-height: 20px; */
         }
       }
 
       .section.jobs {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
         max-width: 424px;
         margin-left: auto;
         margin-right: auto;
+        text-align: center;
       }
 
       .jobs-item {
         padding: 10px 12px;
         text-align: center;
         width: 200px;
-        height: 200px;
-        margin-left: 6px;
-        margin-right: 6px;
+        min-height: 200px;
+        margin-left: 4px;
+        margin-right: 4px;
         margin-bottom: 12px;
         border-radius: 12px;
         border: 1px solid rgba(102, 72, 255, 0.2);
@@ -568,9 +513,8 @@
         font-size: 10px;
         font-weight: 400;
         position: relative;
-        display: flex;
-        flex-direction: column;
         line-height: 1.2;
+        display: inline-block;
       }
 
       .jobs-img-wrapper {
@@ -579,21 +523,10 @@
         background-position: center;
         background-repeat: no-repeat;
       }
-      .jobs-img-wrapper.process-1 {
-      }
-      .jobs-img-wrapper.process-2 {
-      }
-      .jobs-img-wrapper.process-3 {
-      }
-      .jobs-img-wrapper.process-4 {
-      }
 
       .jobs-num {
-        display: flex;
         width: 24px;
         height: 24px;
-        justify-content: center;
-        align-items: center;
         border-radius: 10px;
         background: #484bf1;
         color: #ffffff;
@@ -601,14 +534,9 @@
         position: absolute;
         top: 8px;
         left: 8px;
+        padding-top: 6px;
       }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
   </head>
 
   <body>
@@ -617,11 +545,15 @@
         <img
           src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/logo.png"
           alt=""
+          height="68px"
+          width="auto"
         />
       </div>
 
       <div class="main">
-        <div class="greeting bold">Dear <span>$[UD:FIRST_NAME||]$</span>,</div>
+        <div class="greeting bold">
+          Dear <span>$[UD:COMPANY_NAME||]$</span>,
+        </div>
         <p>
           As a school, we know how important it is to have the best educators
           and staff members to provide quality education to our students. That's
@@ -631,9 +563,25 @@
 
         <!-- section Golden circle in education -->
         <p class="subtitle">Golden circle in education</p>
-        <div class="section circle">
+        <div style="margin-bottom: 2rem" class="section circle">
           <div class="golden-circle-wrapper">
-            <div class="text-sm why">Fair opportunities in education</div>
+            <div class="d-sm">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/golden-circle.png"
+                alt="Golden circle in education"
+                width="160px"
+                height="160px"
+              />
+            </div>
+            <div class="d-lg">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/golden-circle-lg-2.png"
+                alt="Golden circle in education"
+                width="auto"
+                height="160px"
+              />
+            </div>
+            <!-- <div class="text-sm why">Fair opportunities in education</div>
             <div class="text-sm how">
               Empowering educators & businesses with our support
             </div>
@@ -641,7 +589,7 @@
               We are a go-to platform for the global education industry. Your
               <span class="important">one-stop-shop</span> for industry jobs,
               deals, resources, events, news, and more!
-            </div>
+            </div> -->
           </div>
           <div class="golden-desc-sm">
             <div class="why">WHY?: Fair opportunities in education</div>
@@ -658,24 +606,58 @@
 
         <!-- section Our numbers -->
         <p class="subtitle">Our numbers</p>
-        <div class="section numbers">
+        <div style="margin-bottom: 2rem" class="section numbers">
           <div class="numbers-item">
-            <div class="logo-wrapper squares"></div>
+            <div class="logo-wrapper squares" style="width: 46px; height: 46px">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/icon-squares.png"
+                alt="1140 Job Opportunities"
+                width="25"
+                height="24"
+              />
+            </div>
             <div class="numbers-title">1,140+</div>
             <div class="numbers-desc">Job Opportunities</div>
           </div>
           <div class="numbers-item">
-            <div class="logo-wrapper calendar"></div>
+            <div
+              class="logo-wrapper calendar"
+              style="width: 46px; height: 46px"
+            >
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/icon-calendar.png"
+                alt="50 events per month"
+                width="25"
+                height="24"
+              />
+            </div>
             <div class="numbers-title">50+</div>
             <div class="numbers-desc">Events per month</div>
           </div>
           <div class="numbers-item">
-            <div class="logo-wrapper users"></div>
+            <div class="logo-wrapper users" style="width: 46px; height: 46px">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/icon-users.png"
+                alt="1000 educators"
+                width="25"
+                height="24"
+              />
+            </div>
             <div class="numbers-title">1,000+</div>
             <div class="numbers-desc">Educators</div>
           </div>
           <div class="numbers-item">
-            <div class="logo-wrapper price-tag"></div>
+            <div
+              class="logo-wrapper price-tag"
+              style="width: 46px; height: 46px"
+            >
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/icon-users.png"
+                alt="40 deals"
+                width="25"
+                height="24"
+              />
+            </div>
             <div class="numbers-title">40+</div>
             <div class="numbers-desc">Deals</div>
           </div>
@@ -683,34 +665,66 @@
 
         <!-- section Our transparent job process  -->
         <p class="subtitle">Our transparent job process</p>
-        <div class="section jobs">
+        <div style="margin-bottom: 2rem" class="section jobs">
           <div class="jobs-item">
             <div class="jobs-num">01</div>
-            <div class="jobs-img-wrapper process-1"></div>
-            <div>
+            <div class="jobs-img-wrapper process-1">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/job-process-1.png"
+                alt=""
+                width="129"
+                height="128"
+              />
+            </div>
+            <div class="job-desc">
               With a complete profile, educators can apply with just one click!
             </div>
           </div>
 
           <div class="jobs-item">
             <div class="jobs-num">02</div>
-            <div class="jobs-img-wrapper process-2"></div>
-            <div>
-              The recruiter / HR officer will be notified & instantly be able to
-              review your application.
+            <div class="jobs-img-wrapper process-2">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/job-process-2.png"
+                alt=""
+                width="129"
+                height="128"
+              />
+            </div>
+            <div class="job-desc">
+              The recruiter will be notified & instantly be able to review your
+              application.
             </div>
           </div>
 
           <div class="jobs-item">
             <div class="jobs-num">03</div>
-            <div class="jobs-img-wrapper process-3"></div>
-            <div>Successful applicants will beinvited for an interview.</div>
+            <div class="jobs-img-wrapper process-3">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/job-process-3.png"
+                alt=""
+                width="129"
+                height="128"
+              />
+            </div>
+            <div class="job-desc">
+              Successful applicants will beinvited for an interview.
+            </div>
           </div>
 
           <div class="jobs-item">
             <div class="jobs-num">04</div>
-            <div class="jobs-img-wrapper process-4"></div>
-            <div>Hired! <br />(We love it when this happens.)</div>
+            <div class="jobs-img-wrapper process-4">
+              <img
+                src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/job-process-4.png"
+                alt=""
+                width="129"
+                height="128"
+              />
+            </div>
+            <div class="job-desc">
+              Hired! <br />(We love it when this happens.)
+            </div>
           </div>
         </div>
 
@@ -720,111 +734,208 @@
           </a>
         </div>
 
-        <div class="section contact">
+        <div style="margin-bottom: 2rem" class="section contact">
           <div class="profile-wrapper">
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/profile-natalia.jpg"
               alt=""
               srcset=""
+              width="100px"
+              height="100px"
+              style="object-fit: cover"
             />
           </div>
           <div class="info-wrapper">
-            <div class="name bold">Natalia Pirani</div>
-            <div class="title">Chief People Officer, EDU Passport LLC.</div>
-            <!-- <div>
-              <i class="icon">
-                <img src="icon-location.svg" alt="" />
-              </i>
-              2249 Hilltop Street Hancock, MA 01237
-            </div> -->
-            <!-- <a href="tel:+012345678">
-              <i class="icon"> <img src="icon-call.svg" alt="" /> </i>+01 234
-              567 8
-            </a> -->
+            <div
+              class="name bold"
+              style="color: #6648ff; font-weight: 700; font-size: 1rem"
+            >
+              Natalia Pirani
+            </div>
+            <div class="title" style="margin-bottom: 12pxs">
+              Chief People Officer, EDU Passport LLC.
+            </div>
             <a href="mailto:natalia@edupassport.io">
-              <i class="icon directinbox">
+              <i
+                class="icon directinbox"
+                style="
+                  display: inline-block;
+                  width: 12px;
+                  height: 12px;
+                  position: relative;
+                  top: 2px;
+                  margin-right: 4px;
+                "
+              >
                 <img
                   src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/icon-directinbox.png"
-                  alt=""
+                  alt="Edupassport email"
                   srcset=""
+                  height="12px"
+                  width="auto"
                 /> </i
               >natalia@edupassport.io
             </a>
             <a href="https://edupassport.io/">
-              <i class="icon link">
+              <i
+                class="icon link"
+                style="
+                  display: inline-block;
+                  width: 12px;
+                  height: 12px;
+                  position: relative;
+                  top: 2px;
+                  margin-right: 4px;
+                "
+              >
                 <img
                   src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/icon-link.png"
-                  alt=""
-                  srcset="" /></i
+                  alt="Edupassport website"
+                  srcset=""
+                  height="12px"
+                  width="auto" /></i
               >edupassport.io
             </a>
           </div>
         </div>
 
-        <div class="section hr"></div>
+        <div
+          class="section hr"
+          style="
+            max-width: 424px;
+            margin-left: auto;
+            margin-right: auto;
+            border-bottom: 1px solid #828282;
+            margin-bottom: 2rem;
+          "
+        ></div>
 
-        <div class="social-container" style="justify-content: space-between">
+        <div
+          class="social-container"
+          style="
+            max-width: 220px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 12px;
+          "
+        >
           <a
             class="social-wrapper ig"
             href="http://www.instagram.com/edupassport.io"
+            style="
+              display: inline-block;
+              height: 16px;
+              margin-left: 4px;
+              margin-right: 4px;
+            "
           >
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/social-ig.png"
-              alt=""
+              alt="Edupassport IG"
+              height="16px"
+              width="auto"
             />
           </a>
           <a
             class="social-wrapper fb"
             href="http://www.facebook.com/edupassport.io"
+            style="
+              display: inline-block;
+              height: 16px;
+              margin-left: 4px;
+              margin-right: 4px;
+            "
           >
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/social-fb.png"
-              alt=""
+              alt="Edupassport FB"
+              height="16px"
+              width="auto"
             />
           </a>
           <a
             class="social-wrapper tw"
             href="http://www.twitter.com/edupassport_io"
+            style="
+              display: inline-block;
+              height: 16px;
+              margin-left: 4px;
+              margin-right: 4px;
+            "
           >
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/social-tw.png"
-              alt=""
+              alt="Edupassport TW"
+              height="16px"
+              width="auto"
             />
           </a>
           <a
             class="social-wrapper tt"
             href="https://www.tiktok.com/@edu.passport?is_from_webapp=1&sender_device=pc"
+            style="
+              display: inline-block;
+              height: 16px;
+              margin-left: 4px;
+              margin-right: 4px;
+            "
           >
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/social-tt.png"
-              alt=""
+              alt="Edupassport TT"
+              height="16px"
+              width="auto"
             />
           </a>
           <a
             class="social-wrapper li"
             href="http://www.linkedin.com/company/edupassport-io"
+            style="
+              display: inline-block;
+              height: 16px;
+              margin-left: 4px;
+              margin-right: 4px;
+            "
           >
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/social-li.png"
-              alt=""
+              alt="Edupassport LI"
+              height="16px"
+              width="auto"
             />
           </a>
           <a
             class="social-wrapper yt"
             href="https://www.youtube.com/@edupassport"
+            style="
+              display: inline-block;
+              height: 16px;
+              margin-left: 4px;
+              margin-right: 4px;
+            "
           >
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/social-yt.png"
-              alt=""
+              alt="Edupassport YT"
+              height="16px"
+              width="auto"
             />
           </a>
           <a
             class="social-wrapper pt"
             href="http://www.pinterest.com/edupassport_io"
+            style="
+              display: inline-block;
+              height: 16px;
+              margin-left: 4px;
+              margin-right: 4px;
+            "
           >
             <img
               src="https://placeholder-asset.ap-south-1.linodeobjects.com/socials/social-pt.png"
-              alt=""
+              alt="Edupassport PT"
+              height="16px"
+              width="auto"
             />
           </a>
         </div>
