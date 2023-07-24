@@ -223,6 +223,9 @@ section#services .card .icon-wrapper {
 section#services .card .card-body {
   text-align: left;
 }
+section#services .card .card-body h4 {
+  margin-bottom: 1rem;
+}
 section#services .circle-1 {
   position: absolute;
   width: 150px;
