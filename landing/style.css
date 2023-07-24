@@ -113,7 +113,7 @@ section#hero .container .logo-wrapper {
 section#hero .container h1,
 section#hero .container p {
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   margin-bottom: 1rem;
 }
 
