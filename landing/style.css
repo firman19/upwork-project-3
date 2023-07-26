@@ -99,7 +99,7 @@ section {
 section#hero {
   color: #6648FF;
   text-align: left;
-  background-image: url("/landing/png/hero-image.jpg");
+  /* background-image: url("/landing/png/hero-image.jpg"); */
   background-position: left;
   background-repeat: no-repeat;
   background-size: cover;

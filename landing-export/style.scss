@@ -337,6 +337,16 @@ section#memberships {
                 margin-top: 40px;
                 margin-left: -1rem;
                 margin-right: -1rem;
+                height: 60px;
+
+                .learn {
+                    color: $purple;
+
+                    &:hover {
+                        opacity: .7;
+                        transition: .4 ease;
+                    }
+                }
             }
 
             .small {
@@ -349,6 +359,37 @@ section#memberships {
         }
     }
 
+}
+
+section#project-management {
+    .services {
+        text-align: left;
+        margin-bottom: 2rem;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+
+        .item {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+
+            .icon-wrapper {
+                display: inline-flex;
+                width: 24px;
+                margin-right: 4px;
+            }
+
+            // margin-bottom: 1rem;
+        }
+    }
+
+    .title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: .5rem;
+        color: $purple;
+    }
 }
 
 section#get-started {
@@ -399,6 +440,16 @@ section#get-started {
         }
     }
 }
+
+section.bg-bright {
+    background: $bg-bright;
+
+    h2 {
+        color: $purple;
+        margin-bottom: 2rem;
+    }
+}
+
 
 footer {
     text-align: center;
@@ -452,11 +503,40 @@ footer {
             top: 1rem;
             right: 1rem;
 
-            &:hover{
+            &:hover {
                 opacity: .7;
                 transform: .7 ease;
                 cursor: pointer;
             }
+        }
+    }
+}
+
+.table {
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+    background-color: #fff;
+    border-collapse: collapse;
+    border-style: hidden;
+
+    thead {
+        th {
+            font-weight: bold;
+            color: $purple;
+            font-size: 1rem;
+            padding: 1rem;
+            border: 3px solid $bg-bright;
+
+        }
+    }
+
+    tbody {
+        td {
+            padding: 1rem;
+            border: 3px solid $bg-bright;
         }
     }
 }
