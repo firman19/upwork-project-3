@@ -3,16 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/landing/style.css" />
+    <title>EDU Consulting</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <!-- section 1 -->
-    <section id="hero">
+    <section id="hero" data-bg="./png/hero-image.jpg" class="lazy">
       <div class="container">
         <div class="logo-wrapper">
           <img
-            src="/landing/png/logo-edupassport.png"
+            class="lazy"
+            data-src="./png/logo-edupassport.png"
             alt=""
             width="100%"
             height="auto"
@@ -32,7 +33,8 @@
       <div class="container">
         <div class="icon-wrapper">
           <img
-            src="/landing/svg/icon-quote.svg"
+            class="lazy"
+            data-src="./svg/icon-quote.svg"
             alt=""
             srcset=""
             width="100%"
@@ -61,7 +63,8 @@
           <div class="card">
             <div class="icon-wrapper">
               <img
-                src="/landing/png/icon-time-saving.png"
+                class="lazy"
+                data-src="./png/icon-time-saving.png"
                 alt=""
                 width="100%"
                 height="auto"
@@ -76,7 +79,8 @@
           <div class="card">
             <div class="icon-wrapper">
               <img
-                src="/landing/png/icon-process-efficiency.png"
+                class="lazy"
+                data-src="./png/icon-process-efficiency.png"
                 alt=""
                 width="100%"
                 height="auto"
@@ -88,7 +92,8 @@
           <div class="card">
             <div class="icon-wrapper">
               <img
-                src="/landing/png/icon-enhanced-outcomes.png"
+                class="lazy"
+                data-src="./png/icon-enhanced-outcomes.png"
                 alt=""
                 width="100%"
                 height="auto"
@@ -100,7 +105,8 @@
           <div class="card">
             <div class="icon-wrapper">
               <img
-                src="/landing/png/icon-cont-improvement.png"
+                class="lazy"
+                data-src="./png/icon-cont-improvement.png"
                 alt=""
                 width="100%"
                 height="auto"
@@ -121,7 +127,8 @@
           <div class="card-header">
             <div class="icon-wrapper">
               <img
-                src="/landing/png/icon-product-adm.png"
+                class="lazy"
+                data-src="./png/icon-product-adm.png"
                 alt=""
                 srcset=""
                 width="100%"
@@ -150,7 +157,8 @@
           <div class="card-header">
             <div class="icon-wrapper">
               <img
-                src="/landing/png/icon-marketing-adv.png"
+                class="lazy"
+                data-src="./png/icon-marketing-adv.png"
                 alt=""
                 srcset=""
                 width="100%"
@@ -179,7 +187,8 @@
           <div class="card-header">
             <div class="icon-wrapper">
               <img
-                src="/landing/png/icon-project-mgmt.png"
+                class="lazy"
+                data-src="./png/icon-project-mgmt.png"
                 alt=""
                 srcset=""
                 width="100%"
@@ -257,7 +266,8 @@
         <a href="#" class="btn orange cta">Request Consultation</a>
         <div class="icon-wrapper donut">
           <img
-            src="/landing/svg/icon-donut.svg"
+            class="lazy"
+            data-src="./svg/icon-donut.svg"
             alt=""
             srcset=""
             width="100%"
@@ -266,7 +276,8 @@
         </div>
         <div class="icon-wrapper half">
           <img
-            src="/landing/svg/icon-half-circle-orange.svg"
+            class="lazy"
+            data-src="./svg/icon-half-circle-orange.svg"
             alt=""
             srcset=""
             width="100%"
@@ -275,7 +286,8 @@
         </div>
         <div class="icon-wrapper cloud">
           <img
-            src="/landing/svg/icon-cloud.svg"
+            class="lazy"
+            data-src="./svg/icon-cloud.svg"
             alt=""
             srcset=""
             width="100%"
@@ -290,7 +302,8 @@
       <div class="logo">
         <div class="logo-wrapper">
           <img
-            src="/landing/png/logo-edupassport.png"
+            class="lazy"
+            data-src="./png/logo-edupassport.png"
             alt=""
             srcset=""
             width="100%"
@@ -308,7 +321,8 @@
       <div class="modal">
         <div class="icon-wrapper icon-close" id="close-modal">
           <img
-            src="/landing/png/icon-x.png"
+            class="lazy"
+            data-src="./png/icon-x.png"
             alt=""
             srcset=""
             width="100%"
@@ -316,10 +330,11 @@
           />
         </div>
         <iframe
-          src="https://zfrmz.com/YiJo98Poj6OFO0Cyw8le"
+          data-src="https://zfrmz.com/YiJo98Poj6OFO0Cyw8le"
           frameborder="0"
           width="100%"
           height="100%"
+          class="lazy"
         ></iframe>
       </div>
     </div>
@@ -332,7 +347,7 @@
         // hide modal
         document.getElementById("modal").style.display = "none";
       }
-      
+
       document
         .getElementById("close-modal")
         .addEventListener("click", hideModal);
@@ -341,6 +356,12 @@
       for (let i = 0; i < nodeList.length; i++) {
         nodeList[i].addEventListener("click", (e) => showModal(e));
       }
+    </script>
+    <script src="./lazyload.min.js"></script>
+    <script>
+      var lazyLoadInstance = new LazyLoad({
+        // Your custom settings go here
+      });
     </script>
   </body>
 </html>
