@@ -99,7 +99,6 @@ section {
 section#hero {
   color: #6648FF;
   text-align: left;
-  /* background-image: url("/landing/png/hero-image.jpg"); */
   background-position: left;
   background-repeat: no-repeat;
   background-size: cover;
@@ -431,17 +430,30 @@ footer .small {
   width: 100%;
   max-width: 800px;
   position: relative;
+  background: rgba(29, 41, 57, 0.9);
+  color: #fff;
+}
+.modal-wrapper .modal .loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .modal-wrapper .modal .icon-wrapper {
   width: 2rem;
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 2;
 }
 .modal-wrapper .modal .icon-wrapper:hover {
   opacity: 0.7;
   transform: 0.7 ease;
   cursor: pointer;
+}
+.modal-wrapper .modal iframe {
+  z-index: 1;
+  position: relative;
 }
 
 .table {

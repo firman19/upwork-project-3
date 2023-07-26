@@ -109,7 +109,6 @@ section {
 section#hero {
     color: $purple;
     text-align: left;
-    background-image: url('/landing/png/hero-image.jpg');
     background-position: left;
     background-repeat: no-repeat;
     background-size: cover;
@@ -496,18 +495,32 @@ footer {
         width: 100%;
         max-width: 800px;
         position: relative;
+        background: rgba(29, 41, 57, 0.9);
+        color: #fff;
+
+        .loading {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
 
         .icon-wrapper {
             width: 2rem;
             position: absolute;
             top: 1rem;
             right: 1rem;
+            z-index: 2;
 
             &:hover {
                 opacity: .7;
                 transform: .7 ease;
                 cursor: pointer;
             }
+        }
+        iframe{
+            z-index: 1;
+            position: relative;
         }
     }
 }
