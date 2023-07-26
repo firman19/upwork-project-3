@@ -250,7 +250,8 @@ section#services {
 
         .card-body {
             text-align: left;
-            h4{
+
+            h4 {
                 margin-bottom: 1rem;
             }
         }
@@ -425,4 +426,37 @@ footer {
         font-size: .75rem;
     }
 
+}
+
+.modal-wrapper {
+    height: 100vh;
+    width: 100vw;
+    background: rgba(29, 41, 57, 0.5);
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+
+    .modal {
+        height: 90%;
+        width: 100%;
+        max-width: 800px;
+        position: relative;
+
+        .icon-wrapper {
+            width: 2rem;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+
+            &:hover{
+                opacity: .7;
+                transform: .7 ease;
+                cursor: pointer;
+            }
+        }
+    }
 }

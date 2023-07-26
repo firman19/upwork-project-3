@@ -23,7 +23,7 @@
           Welcome to our exclusive EDU Passport service, your gateway to
           unlocking the full potential of your Business or School.
         </p>
-        <a href="#" class="btn purple">Get Started</a>
+        <a href="#" class="btn purple cta">Get Started</a>
       </div>
     </section>
 
@@ -254,7 +254,7 @@
           transforming your Business or School. Together, we'll build a brighter
           future for your institution and everyone around!
         </div>
-        <a href="#" class="btn orange">Request Consultation</a>
+        <a href="#" class="btn orange cta">Request Consultation</a>
         <div class="icon-wrapper donut">
           <img
             src="/landing/svg/icon-donut.svg"
@@ -304,5 +304,43 @@
       <div class="small">Copyright © 2023 EDU Passport</div>
       <div class="small">All rights reserved</div>
     </footer>
+    <div class="modal-wrapper" style="display: none" id="modal">
+      <div class="modal">
+        <div class="icon-wrapper icon-close" id="close-modal">
+          <img
+            src="png/icon-x.png"
+            alt=""
+            srcset=""
+            width="100%"
+            height="auto"
+          />
+        </div>
+        <iframe
+          src="https://zfrmz.com/YiJo98Poj6OFO0Cyw8le"
+          frameborder="0"
+          width="100%"
+          height="100%"
+        ></iframe>
+      </div>
+    </div>
+    <script>
+      function showModal(e) {
+        e.preventDefault();
+        document.getElementById("modal").style.display = "flex";
+      }
+      function hideModal() {
+        // hide modal
+        document.getElementById("modal").style.display = "none";
+      }
+      
+      document
+        .getElementById("close-modal")
+        .addEventListener("click", hideModal);
+
+      const nodeList = document.querySelectorAll(".cta");
+      for (let i = 0; i < nodeList.length; i++) {
+        nodeList[i].addEventListener("click", (e) => showModal(e));
+      }
+    </script>
   </body>
 </html>
