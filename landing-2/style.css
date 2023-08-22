@@ -33,7 +33,6 @@ a {
 
 section {
   padding: 1rem;
-  padding-bottom: 64px;
 }
 @media (min-width: 768px) {
   section {
@@ -142,4 +141,22 @@ section._cta {
 ._payHere:hover {
   opacity: 0.7;
   transform: 0.4s ease;
+}
+
+.socialMediaWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.socialMediaWrapper .previewMediaWrapper {
+  text-align: center;
+  width: calc(33% - 8px);
+  margin-bottom: 4rem;
+}
+.socialMediaWrapper .previewMediaWrapper img {
+  width: 100%;
+  height: auto;
 }/*# sourceMappingURL=style.css.map */

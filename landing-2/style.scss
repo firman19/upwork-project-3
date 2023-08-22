@@ -41,7 +41,6 @@ a {
 
 section {
     padding: 1rem;
-    padding-bottom: 64px;
 
     @media (min-width:768px) {
         padding: 4rem;
@@ -160,8 +159,27 @@ section._cta {
     width: 240px;
     display: inline-block;
 
-    &:hover{
+    &:hover {
         opacity: .7;
         transform: .4s ease;
+    }
+}
+
+.socialMediaWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .previewMediaWrapper {
+        text-align: center;
+        width: calc(33% - 8px);
+        margin-bottom: 4rem;
+        img{
+            width: 100%;
+            height: auto;
+        }
     }
 }
