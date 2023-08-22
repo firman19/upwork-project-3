@@ -1,0 +1,119 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: Proxima;
+  src: url("fonts/proxima.otf") format("opentype");
+}
+@font-face {
+  font-family: Proxima;
+  font-weight: bold;
+  src: url("fonts/proximanova-bold.otf") format("opentype");
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+ul {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 1rem;
+}
+
+body {
+  font-family: "Proxima", "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: calc(2.5rem + 0.390625vw);
+}
+
+h2 {
+  font-size: calc(2rem + 0.390625vw);
+}
+
+h3 {
+  font-size: calc(1.5rem + 0.390625vw);
+}
+
+h4 {
+  font-size: calc(1.2rem + 0.390625vw);
+}
+
+.btn {
+  background-color: #6648FF;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+.btn.orange {
+  background-color: #F9B019;
+}
+.btn:hover {
+  opacity: 0.7;
+  transition: 0.4s ease;
+}
+
+section {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  section {
+    padding: 4rem;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 992px;
+  margin: auto;
+}
+
+.table {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  background-color: #fff;
+  border-collapse: collapse;
+  border-style: hidden;
+}
+table thead th {
+  font-weight: bold;
+  color: #6648FF;
+  font-size: 1rem;
+  padding: 1rem;
+  border: 3px solid #F7F5FF;
+}
+table tbody td {
+  padding: 1rem;
+  border: 3px solid #F7F5FF;
+}/*# sourceMappingURL=style.css.map */
