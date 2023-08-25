@@ -224,7 +224,7 @@ section#services {
 
         @media (min-width:929px) {
             flex-direction: row;
-            justify-content: space-evenly;
+            justify-content: flex-start;
         }
 
         .card-header {
@@ -239,6 +239,7 @@ section#services {
                 flex-direction: row;
                 justify-content: space-evenly;
                 margin-bottom: 0;
+                margin-right: 32px;
             }
         }
 
@@ -338,14 +339,7 @@ section#memberships {
                 margin-right: -1rem;
                 height: 60px;
 
-                .learn {
-                    color: $purple;
 
-                    &:hover {
-                        opacity: .7;
-                        transition: .4 ease;
-                    }
-                }
             }
 
             .small {
@@ -360,11 +354,12 @@ section#memberships {
 
 }
 
-section#project-management {
+section#project-management,
+section#online-course {
     .services {
         text-align: left;
         margin-bottom: 2rem;
-        width: fit-content;
+        // width: fit-content;
         margin-left: auto;
         margin-right: auto;
 
@@ -518,7 +513,8 @@ footer {
                 cursor: pointer;
             }
         }
-        iframe{
+
+        iframe {
             z-index: 1;
             position: relative;
         }
@@ -552,4 +548,33 @@ table {
             border: 3px solid $bg-bright;
         }
     }
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.mb-2 {
+    margin-bottom: 2rem;
+}
+
+.learn {
+    color: $purple;
+    font-weight: bold;
+
+    &:hover {
+        opacity: .7;
+        transition: .4 ease;
+    }
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.col-sm-12 {
+    flex: 0 0 auto;
+    width: 100%;
 }
