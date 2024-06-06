@@ -25,13 +25,15 @@ const main = async () => {
   console.log("joblist has been displayed");
 
   // click each job list (looping)
-  const jobs = [];
+  const jobs_arr = [];
   let start = 1;
   let totalJob = 0;
-  let max = 1200;
+  let max = 4050;
   let skip = 0;
-  while (jobs.length < max) {
-    // count how many total jobs
+  let autoSave = 200;
+
+  while (jobs_arr.length < max) {
+    // count how many total html element jobs
     totalJob = await page.evaluate(() => {
       const jobElements = document.querySelectorAll(
         "ul[aria-label='Jobs List']>li[data-test='jobListing']"
@@ -54,7 +56,7 @@ const main = async () => {
       }
     }
 
-    for (let i = start; i <= max; i++) {
+    for (let i = start; i <= totalJob; i++) {
       await page.click(
         `ul[aria-label='Jobs List']>li[data-test='jobListing']:nth-child(${i})`
       );
@@ -68,10 +70,7 @@ const main = async () => {
         (await page.$(
           `ul[aria-label='Jobs List']>li[data-test='jobListing']:nth-child(${i}) a[data-test='job-title']`
         )) || "";
-      let locElement =
-        (await page.$(
-          `ul[aria-label='Jobs List']>li[data-test='jobListing']:nth-child(${i}) div[data-test='emp-location']`
-        )) || "";
+      // let locElement = (await page.$(`ul[aria-label='Jobs List']>li[data-test='jobListing']:nth-child(${i}) div[data-test='emp-location']` )) || "";
       let salaryElement =
         (await page.$(
           `ul[aria-label='Jobs List']>li[data-test='jobListing']:nth-child(${i}) div[data-test='detailSalary']`
@@ -91,9 +90,7 @@ const main = async () => {
       const title = titleElement
         ? await titleElement.evaluate((el) => el.textContent)
         : "";
-      const loc = locElement
-        ? await locElement.evaluate((el) => el.textContent)
-        : "";
+      // const loc = locElement ? await locElement.evaluate((el) => el.textContent) : "";
       const salary = salaryElement
         ? await salaryElement.evaluate((el) => el.textContent)
         : "";
@@ -106,6 +103,7 @@ const main = async () => {
 
       let desc = "";
       let company_url = "";
+      let location = "";
       try {
         // wait for the description to appear
         await page.waitForFunction(
@@ -123,6 +121,14 @@ const main = async () => {
             (await companyUrlElement.evaluate((el) => el.getAttribute("href")))
           : "";
 
+        let rightLocElement =
+          (await page.$(
+            `header[data-test='job-details-header'] div[data-test="location"]`
+          )) || "";
+        location = rightLocElement
+          ? await rightLocElement.evaluate((el) => el.textContent)
+          : "";
+
         let descElement =
           (await page.$(`section>div[data-brandviews]>div[data-brandviews]`)) ||
           "";
@@ -134,16 +140,28 @@ const main = async () => {
         console.error(error);
       }
 
-      jobs.push({
+      jobs_arr.push({
         post_date: date,
         job_title: title,
-        online: loc.toLowerCase() == "remote" ? "Yes" : "No",
+        online: location.toLowerCase() == "remote" ? "Yes" : "No",
         description: desc,
         salary,
-        city: loc.toLowerCase() != "remote" ? loc : "",
+        city: location.toLowerCase() != "remote" ? location : "",
         business_name: company,
         company_url,
       });
+
+      if (i % autoSave === 0) {
+        console.log(`Saving json glassdoor_${autoSave}_tmp.json...`);
+        await writeFile(
+          `glassdoor_${autoSave}_tmp.json`,
+          JSON.stringify(jobs_arr, null, 2)
+        );
+
+        console.log(`Saving csv glassdoor_${autoSave}_tmp.csv...`);
+        const csv = parse(jobs_arr);
+        await writeFile(`glassdoor_${autoSave}_tmp.csv`, csv);
+      }
     }
 
     start = totalJob + 1;
@@ -156,12 +174,15 @@ const main = async () => {
     );
   }
   console.log("Saving json...");
-  await writeFile(`glassdoor1000.json`, JSON.stringify(jobs, null, 2));
+  await writeFile(
+    `glassdoor_${autoSave}_full.json`,
+    JSON.stringify(jobs_arr, null, 2)
+  );
 
   console.log("Saving csv...");
-  const csv = parse(jobs);
-  await writeFile(`glassdoor1000.csv`, csv);
-  // await browser.close();
+  const csv = parse(jobs_arr);
+  await writeFile(`glassdoor_${autoSave}_full.csv`, csv);
+  await browser.close();
 };
 
 main();
