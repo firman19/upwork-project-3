@@ -11,19 +11,20 @@ import { parse } from "json2csv";
 // const URL = "https://www.glassdoor.com.hk/Job/teaching-jobs-SRCH_KO0,8.htm";
 // const URL = "https://www.glassdoor.fr/Emploi/teaching-emplois-SRCH_KO0,8.htm";
 // const URL = "https://www.glassdoor.de/Job/teaching-jobs-SRCH_KO0,8.htm";
-const URL = "https://www.glassdoor.co.in/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.co.in/Job/teaching-jobs-SRCH_KO0,8.htm";
 
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
-// const URL = "";
+// const URL = "https://www.glassdoor.ie/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.it/Lavoro/teaching-lavori-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.com.mx/Empleo/teaching-empleos-SRCH_KO0,8.htm";
+const URL = "https://www.glassdoor.nl/Vacature/teaching-vacatures-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.co.nz/Job/teaching-jobs-SRCH_KO0,8.htm";
+
+// const URL = "https://www.glassdoor.sg/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.es/Empleo/teaching-empleos-SRCH_KO0,8.htm";
+// const URL = "https://fr.glassdoor.ch/Emploi/teaching-emplois-SRCH_KO0,8.htm";
+// const URL = "https://de.glassdoor.ch/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.co.uk/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.com/Job/teaching-jobs-SRCH_KO0,8.htm";
 
 // const currCountry = "aus";
 // const currCountry = "ar";
@@ -34,20 +35,20 @@ const URL = "https://www.glassdoor.co.in/Job/teaching-jobs-SRCH_KO0,8.htm";
 // const currCountry = "hk";
 // const currCountry = "fr";
 // const currCountry = "ger";
-const currCountry = "in";
+// const currCountry = "in";
 
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
-// const currCountry = "";
+// const currCountry = "ireland";
+// const currCountry = "italy";
+// const currCountry = "mexico";
+const currCountry = "ned";
+// const currCountry = "nz";
 
+// const currCountry = "sg";
+// const currCountry = "spain";
+// const currCountry = "swiss";
+// const currCountry = "switzerland";
+// const currCountry = "uk";
+// const currCountry = "us";
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -75,7 +76,7 @@ const main = async () => {
   let totalJob = 0;
   let max = 4050;
   let skip = 0;
-  let autoSave = 4;
+  let autoSave = 5;
 
   while (jobs_arr.length < max) {
     // count how many total html element jobs
@@ -169,19 +170,20 @@ const main = async () => {
         // let BASE_URL = "https://www.glassdoor.com.hk";
         // let BASE_URL = "https://www.glassdoor.fr";
         // let BASE_URL = "https://www.glassdoor.de";
-        let BASE_URL = "https://www.glassdoor.co.in";
+        // let BASE_URL = "https://www.glassdoor.co.in";
         
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
-        // let BASE_URL = "";
+        // let BASE_URL = "https://www.glassdoor.ie";
+        // let BASE_URL = "https://www.glassdoor.it";
+        // let BASE_URL = "https://www.glassdoor.com.mx";
+        let BASE_URL = "https://www.glassdoor.nl";
+        // let BASE_URL = "https://www.glassdoor.co.nz";
+
+        // let BASE_URL = "https://www.glassdoor.sg";
+        // let BASE_URL = "https://www.glassdoor.es";
+        // let BASE_URL = "https://fr.glassdoor.ch";
+        // let BASE_URL = "https://de.glassdoor.ch";
+        // let BASE_URL = "https://www.glassdoor.co.uk";
+        // let BASE_URL = "https://www.glassdoor.com";
         
         let companyUrlElement =
           (await page.$(`header[data-test='job-details-header'] a`)) || "";
@@ -222,18 +224,18 @@ const main = async () => {
 
       if (i % autoSave === 0) {
         console.log(
-          `Saving json results/glassdoor_${autoSave}_tmp_${currCountry}.json...`
+          `Saving json results/glassdoor_tmp_${currCountry}.json...`
         );
         await writeFile(
-          `results/glassdoor_${autoSave}_tmp_${currCountry}.json`,
+          `results/glassdoor_tmp_${currCountry}.json`,
           JSON.stringify(jobs_arr, null, 2)
         );
 
         console.log(
-          `Saving csv results/glassdoor_${autoSave}_tmp_${currCountry}.csv...`
+          `Saving csv results/glassdoor_tmp_${currCountry}.csv...`
         );
         const csv = parse(jobs_arr);
-        await writeFile(`results/glassdoor_${autoSave}_tmp_${currCountry}.csv`, csv);
+        await writeFile(`results/glassdoor_tmp_${currCountry}.csv`, csv);
       }
     }
 
@@ -248,13 +250,13 @@ const main = async () => {
   }
   console.log("Saving json...");
   await writeFile(
-    `results/glassdoor_${autoSave}_full_${currCountry}.json`,
+    `results/glassdoor_full_${currCountry}.json`,
     JSON.stringify(jobs_arr, null, 2)
   );
 
   console.log("Saving csv...");
   const csv = parse(jobs_arr);
-  await writeFile(`results/glassdoor_${autoSave}_full_${currCountry}.csv`, csv);
+  await writeFile(`results/glassdoor_full_${currCountry}.csv`, csv);
   await browser.close();
 };
 
