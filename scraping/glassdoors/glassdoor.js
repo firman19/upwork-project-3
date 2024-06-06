@@ -2,7 +2,52 @@ import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
 
-const URL = "https://www.glassdoor.com.au/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.com.au/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.com.ar/Empleo/teacher-empleos-SRCH_KO0,7.htm";
+// const URL = "https://www.glassdoor.at/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://nl.glassdoor.be/Vacature/teaching-vacatures-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.com.br/Vaga/teaching-vagas-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.ca/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.com.hk/Job/teaching-jobs-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.fr/Emploi/teaching-emplois-SRCH_KO0,8.htm";
+// const URL = "https://www.glassdoor.de/Job/teaching-jobs-SRCH_KO0,8.htm";
+const URL = "https://www.glassdoor.co.in/Job/teaching-jobs-SRCH_KO0,8.htm";
+
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+// const URL = "";
+
+// const currCountry = "aus";
+// const currCountry = "ar";
+// const currCountry = "at";
+// const currCountry = "be";
+// const currCountry = "br";
+// const currCountry = "ca";
+// const currCountry = "hk";
+// const currCountry = "fr";
+// const currCountry = "ger";
+const currCountry = "in";
+
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+// const currCountry = "";
+
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -30,7 +75,7 @@ const main = async () => {
   let totalJob = 0;
   let max = 4050;
   let skip = 0;
-  let autoSave = 200;
+  let autoSave = 4;
 
   while (jobs_arr.length < max) {
     // count how many total html element jobs
@@ -114,10 +159,34 @@ const main = async () => {
         );
 
         // get data from right component
+        // EDIT THE BASE_URL
+        // let BASE_URL = "https://www.glassdoor.com.au";
+        // let BASE_URL = "https://www.glassdoor.com.ar";
+        // let BASE_URL = "https://www.glassdoor.com.at";
+        // let BASE_URL = "https://nl.glassdoor.be";
+        // let BASE_URL = "https://www.glassdoor.com.br";
+        // let BASE_URL = "https://www.glassdoor.ca";
+        // let BASE_URL = "https://www.glassdoor.com.hk";
+        // let BASE_URL = "https://www.glassdoor.fr";
+        // let BASE_URL = "https://www.glassdoor.de";
+        let BASE_URL = "https://www.glassdoor.co.in";
+        
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        // let BASE_URL = "";
+        
         let companyUrlElement =
           (await page.$(`header[data-test='job-details-header'] a`)) || "";
         company_url = companyUrlElement
-          ? "https://www.glassdoor.com.au" +
+          ? BASE_URL +
             (await companyUrlElement.evaluate((el) => el.getAttribute("href")))
           : "";
 
@@ -152,15 +221,19 @@ const main = async () => {
       });
 
       if (i % autoSave === 0) {
-        console.log(`Saving json glassdoor_${autoSave}_tmp.json...`);
+        console.log(
+          `Saving json results/glassdoor_${autoSave}_tmp_${currCountry}.json...`
+        );
         await writeFile(
-          `glassdoor_${autoSave}_tmp.json`,
+          `results/glassdoor_${autoSave}_tmp_${currCountry}.json`,
           JSON.stringify(jobs_arr, null, 2)
         );
 
-        console.log(`Saving csv glassdoor_${autoSave}_tmp.csv...`);
+        console.log(
+          `Saving csv results/glassdoor_${autoSave}_tmp_${currCountry}.csv...`
+        );
         const csv = parse(jobs_arr);
-        await writeFile(`glassdoor_${autoSave}_tmp.csv`, csv);
+        await writeFile(`results/glassdoor_${autoSave}_tmp_${currCountry}.csv`, csv);
       }
     }
 
@@ -175,13 +248,13 @@ const main = async () => {
   }
   console.log("Saving json...");
   await writeFile(
-    `glassdoor_${autoSave}_full.json`,
+    `results/glassdoor_${autoSave}_full_${currCountry}.json`,
     JSON.stringify(jobs_arr, null, 2)
   );
 
   console.log("Saving csv...");
   const csv = parse(jobs_arr);
-  await writeFile(`glassdoor_${autoSave}_full.csv`, csv);
+  await writeFile(`results/glassdoor_${autoSave}_full_${currCountry}.csv`, csv);
   await browser.close();
 };
 
