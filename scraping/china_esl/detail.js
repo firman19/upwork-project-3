@@ -9,8 +9,8 @@ category = "nursery";
 category = "others";
 category = "primary";
 category = "training-company";
+import tmp from "./results/chinaesl_training-company_tmp.json" with { type: "json" }
 // category = "university";
-import tmp from "./results/chinaesl_university_tmp.json" with { type: "json" }
 
 const main = async () => {
   const browser = await puppeteer.launch({
