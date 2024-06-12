@@ -33,10 +33,12 @@ const main = async () => {
           business_name = business_name.replace(/(\r\n|\n|\r|\t)/gm, "");
           business_name = business_name.startsWith('at') ? business_name.substring(2) : business_name;
 
+          let email = extract(job_desc) ? extract(job_desc)[0] : "";
         tmp[i] = {
           ...tmp[i],
           job_desc: job_desc.replace(/(\r\n|\n|\r|\t)/gm, "").replace('\t',''),
           business_name: business_name.trim(),
+          email
         };
       } catch (error) {
         console.error(error);
@@ -57,3 +59,9 @@ const main = async () => {
 };
 
 main();
+
+function extract(str) {
+  const email = 
+      /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+  return str.match(email);
+}
