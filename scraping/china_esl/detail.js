@@ -1,7 +1,16 @@
 import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
-import tmp from "./results/chinaesl_company_agencies_tmp.json" with { type: "json" }
+
+let category = "";
+category = "company-agencies";
+category = "middle-school";
+category = "nursery";
+category = "others";
+category = "primary";
+category = "training-company";
+// category = "university";
+import tmp from "./results/chinaesl_university_tmp.json" with { type: "json" }
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -48,13 +57,13 @@ const main = async () => {
 
     console.log("Saving json...");
     await writeFile(
-      `results/china_esl_company_agency_full.json`,
+      `results/china_esl_${category}_full.json`,
       JSON.stringify(tmp, null, 2)
     );
 
     console.log("Saving csv...");
     const csv = parse(tmp);
-    await writeFile(`results/china_esl_company_agency_full.csv`, csv);
+    await writeFile(`results/china_esl_${category}_full.csv`, csv);
     await browser.close();
 };
 
