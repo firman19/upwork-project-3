@@ -1,9 +1,9 @@
-// docs https://docs.google.com/document/d/1qHl96NvkhOIgqbaOoA5Tf3vxOeHE_HVpzeaeIVEmhY0/edit
+// docs https://docs.google.com/document/d/1EKrGcN-ni5-wP0S7zSjOAYiE8G_DlZYA/edit
 import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
 
-const URL = "https://30sjob.com/job/page/1/?s&filter-title=Education";
+const URL = "https://albany.craigslist.org/search/edu#search=1~thumb~0~6";
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -15,13 +15,13 @@ const main = async () => {
 
   // handle pagination
   let counter = 1;
-  let lastPage = 15;
+  let lastPage = 1;
   const jobs_arr = [];
 
   while (counter <= lastPage) {
     console.log("page: " + counter);
     try {
-      const pageURL = URL + counter + filter;
+      const pageURL = URL;
       counter = counter + 1;
       await page.goto(pageURL, {
         waitUntil: "load",
@@ -29,7 +29,7 @@ const main = async () => {
 
       // wait for the job list to display
       await page.waitForFunction(
-        () => document.querySelectorAll(`div.jobs-wrapper.items-wrapper`).length
+        () => document.querySelectorAll(`div.results.cl-results-page li.cl-search-result`).length
       );
       console.log("joblist has been displayed");
     } catch (error) {
@@ -41,7 +41,7 @@ const main = async () => {
     let totalJob = 0;
     totalJob = await page.evaluate(() => {
       const jobElements = document.querySelectorAll(
-        `div.jobs-wrapper div.item-job`
+        `div.results.cl-results-page li.cl-search-result`
       );
       return jobElements.length;
     });
@@ -56,16 +56,16 @@ const main = async () => {
     }
   }
 
-  console.log("Saving json...");
-  await writeFile(
-    `results/craiglist_tmp.json`,
-    JSON.stringify(jobs_arr, null, 2)
-  );
+  // console.log("Saving json...");
+  // await writeFile(
+  //   `results/craiglist_tmp.json`,
+  //   JSON.stringify(jobs_arr, null, 2)
+  // );
 
-  console.log("Saving csv...");
-  const csv = parse(jobs_arr);
-  await writeFile(`results/craiglist_tmp.csv`, csv);
-  await browser.close();
+  // console.log("Saving csv...");
+  // const csv = parse(jobs_arr);
+  // await writeFile(`results/craiglist_tmp.csv`, csv);
+  // await browser.close();
 };
 
 main();

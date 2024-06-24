@@ -1,9 +1,9 @@
-// docs https://docs.google.com/document/d/1wU_dCMpIXph86xY_W8mrq-smYvqhJJEVky6msz8mD7w/edit
+// docs https://docs.google.com/document/d/1cyDW4irVlTeUC155dXUBdhskdaXv94Yo/edit
 import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
 
-const URL = "https://30sjob.com/job/page/1/?s&filter-title=Education";
+const URL = "https://www.adzuna.com.au/search?loc=105392&q=teaching&page=";
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -15,13 +15,13 @@ const main = async () => {
 
   // handle pagination
   let counter = 1;
-  let lastPage = 15;
+  let lastPage = 20;
   const jobs_arr = [];
 
   while (counter <= lastPage) {
     console.log("page: " + counter);
     try {
-      const pageURL = URL + counter + filter;
+      const pageURL = URL + counter;
       counter = counter + 1;
       await page.goto(pageURL, {
         waitUntil: "load",
@@ -29,7 +29,7 @@ const main = async () => {
 
       // wait for the job list to display
       await page.waitForFunction(
-        () => document.querySelectorAll(`div.jobs-wrapper.items-wrapper`).length
+        () => document.querySelectorAll(`div.ui-search-results`).length
       );
       console.log("joblist has been displayed");
     } catch (error) {
@@ -41,7 +41,7 @@ const main = async () => {
     let totalJob = 0;
     totalJob = await page.evaluate(() => {
       const jobElements = document.querySelectorAll(
-        `div.jobs-wrapper div.item-job`
+        `div.ui-search-results>div[data-aid]`
       );
       return jobElements.length;
     });
@@ -56,13 +56,13 @@ const main = async () => {
     }
   }
 
-  console.log("Saving json...");
-  await writeFile(`results/adzuna_tmp.json`, JSON.stringify(jobs_arr, null, 2));
+  // console.log("Saving json...");
+  // await writeFile(`results/adzuna_tmp.json`, JSON.stringify(jobs_arr, null, 2));
 
-  console.log("Saving csv...");
-  const csv = parse(jobs_arr);
-  await writeFile(`results/adzuna_tmp.csv`, csv);
-  await browser.close();
+  // console.log("Saving csv...");
+  // const csv = parse(jobs_arr);
+  // await writeFile(`results/adzuna_tmp.csv`, csv);
+  // await browser.close();
 };
 
 main();
