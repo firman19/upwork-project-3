@@ -1,9 +1,10 @@
-// docs https://docs.google.com/document/d/1EKrGcN-ni5-wP0S7zSjOAYiE8G_DlZYA/edit
+// docs [INSERT_GOOGLE_DOC_HERE]
 import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
 
-const URL = "https://albany.craigslist.org/search/edu#search=1~thumb~0~6";
+const URL = `[INSERT_URL_HERE]`;
+// const URL = "https://www.adzuna.com.au/search?loc=105392&q=teaching&page=";
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -15,13 +16,13 @@ const main = async () => {
 
   // handle pagination
   let counter = 1;
-  let lastPage = 1;
+  let lastPage = 20;
   const jobs_arr = [];
 
   while (counter <= lastPage) {
     console.log("page: " + counter);
     try {
-      const pageURL = URL;
+      const pageURL = URL + counter;
       counter = counter + 1;
       await page.goto(pageURL, {
         waitUntil: "load",
@@ -29,10 +30,8 @@ const main = async () => {
 
       // wait for the job list to display
       await page.waitForFunction(
-        () =>
-          document.querySelectorAll(
-            `div.results.cl-results-page li.cl-search-result`
-          ).length
+        () => document.querySelectorAll(`[INSERT_SELECTOR_JOB_LIST]`).length
+        // () => document.querySelectorAll(`div.ui-search-results`).length
       );
       console.log("joblist has been displayed");
     } catch (error) {
@@ -44,7 +43,8 @@ const main = async () => {
     let totalJob = 0;
     totalJob = await page.evaluate(() => {
       const jobElements = document.querySelectorAll(
-        `div.results.cl-results-page li[data-pid].cl-search-result`
+        `[INSERT_SELECTOR_JOB_ITEM]`
+        // `div.ui-search-results>div[data-aid]`
       );
       return jobElements.length;
     });
@@ -54,49 +54,24 @@ const main = async () => {
     for (let i = start; i <= totalJob; i++) {
       try {
         /** Define elements */
-        let locationElement =
-          (await page.$(
-            `div.results.cl-results-page li[data-pid].cl-search-result:nth-child(${i})
-            div.supertitle`
-          )) || "";
         let jobLinkElement =
           (await page.$(
-            `div.results.cl-results-page li[data-pid].cl-search-result:nth-child(${i})
-            a.posting-title`
-          )) || "";
-        let dateElement =
-          (await page.$(
-            `div.results.cl-results-page li[data-pid].cl-search-result:nth-child(${i})
-            div.meta span`
-          )) || "";
-        let salaryElement =
-          (await page.$(
-            `div.results.cl-results-page li[data-pid].cl-search-result:nth-child(${i})
-            div.meta span:nth-child(2)`
+            `div.results.cl-results-page li[data-pid].cl-search-result:nth-child(${i}) a.posting-title`
+            // `div.results.cl-results-page li[data-pid].cl-search-result:nth-child(${i}) a.posting-title`
           )) || "";
 
         /** Retrieve values */
-        let location = locationElement
-          ? await locationElement.evaluate((el) => el.textContent)
-          : "";
         let job_link = jobLinkElement
-          ? await jobLinkElement.evaluate((el) => el.getAttribute("href"))
-          : "";
-        let title = jobLinkElement
           ? await jobLinkElement.evaluate((el) => el.textContent)
-          : "";
-        let date = dateElement
-          ? await dateElement.evaluate((el) => el.getAttribute("title"))
-          : "";
-        // TODO
-        let salary = salaryElement
-          ? await salaryElement.evaluate((el) => el.textContent)
           : "";
 
         jobs_arr.push({
           date_farmed: "04/07/2024",
-          source: "CraigList",
-          scraped_url: job_link,
+          source: "",
+          scraped_url: job_link
+            .replace(/(\r\n|\n|\r|\t)/gm, "")
+            .replace("\t", "")
+            .trim(),
           d: "New Lead",
           e: "Opportunity",
           f: "Juan",
@@ -106,9 +81,9 @@ const main = async () => {
           j: "EDU Business",
           k: "EDU Jobs",
           l: "",
-          post_date: date,
-          n: "", // TODO: get feat job
-          job_title: title.replace(/\n/g, "").trim(),
+          post_date: "",
+          n: "",
+          job_title: "",
           p: "",
           job_type: "",
           description: "",
@@ -120,7 +95,7 @@ const main = async () => {
           x_benefits: "",
           y: "",
           z: "",
-          aa_state_province: location.replace(/\n/g, "").trim(),
+          aa_state_province: "",
           ab_country: "USA",
           ac_region: "North America",
           business_name: "",
@@ -129,7 +104,7 @@ const main = async () => {
           ag: "",
           ah: "",
           ai_country: "",
-          company_url: "", // to get website
+          company_url: "",
         });
       } catch (error) {
         console.error(error);
@@ -139,13 +114,13 @@ const main = async () => {
 
   console.log("Saving json...");
   await writeFile(
-    `results/craiglist_tmp.json`,
+    `results/10Times_tmp.json`,
     JSON.stringify(jobs_arr, null, 2)
   );
 
   console.log("Saving csv...");
   const csv = parse(jobs_arr);
-  await writeFile(`results/craiglist_tmp.csv`, csv);
+  await writeFile(`results/10Times_tmp.csv`, csv);
   await browser.close();
 };
 
