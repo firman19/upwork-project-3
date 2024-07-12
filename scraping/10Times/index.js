@@ -27,7 +27,7 @@ const countries = [
   "mexico",
   "netherlands",
 ];
-const currCountry = countries[9];
+const currCountry = countries[19];
 
 const URL = `https://10times.com/${currCountry}?kw=Education`;
 
@@ -159,8 +159,8 @@ const main = async () => {
           q: "",
           r: "",
           s_state_province: location,
-          t: "Ecuador",
-          u: "South America",
+          t: "Netherlands",
+          u: "Europe",
           //
           v: "",
           w: "",
