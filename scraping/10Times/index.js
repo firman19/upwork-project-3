@@ -26,6 +26,19 @@ const countries = [
   "italy",
   "mexico",
   "netherlands",
+
+  "poland",
+  "saudiarabia",
+  "singapore",
+  "southafrica",
+  "korea",
+  "spain",
+  "switzerland",
+  "unitedarabemirates",
+  "unitedkingdom",
+  "usa",
+
+  "vietnam",
 ];
 const currCountry = countries[19];
 
