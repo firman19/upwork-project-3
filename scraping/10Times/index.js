@@ -40,7 +40,7 @@ const countries = [
 
   "vietnam",
 ];
-const currCountry = countries[19];
+const currCountry = countries[30];
 
 const URL = `https://10times.com/${currCountry}?kw=Education`;
 
@@ -152,7 +152,7 @@ const main = async () => {
           : "";
 
         jobs_arr.push({
-          a_date_farmed: "12/07/2024",
+          a_date_farmed: "16/07/2024",
           b_source: "10Times",
           c_scraped_url: job_link,
           d: "New Lead",
@@ -172,8 +172,8 @@ const main = async () => {
           q: "",
           r: "",
           s_state_province: location,
-          t: "Netherlands",
-          u: "Europe",
+          t: "Vietnam",
+          u: "Southeast Asia",
           //
           v: "",
           w: "",
