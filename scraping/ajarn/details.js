@@ -12,8 +12,8 @@ const main = async () => {
   const page = await browser.newPage();
   console.log("Length: " + tmp.length);
 
-  for (let i = 0; i < 140; i++) {
-    let company_url = tmp[i].company_url;
+  for (let i = 0; i < tmp.length; i++) {
+    let company_url = tmp[i].zz_company_url;
     console.log("Process:" + i + "/" + tmp.length, company_url);
 
     if (company_url) {
@@ -30,23 +30,28 @@ const main = async () => {
         let descElement =
           (await page.$(`main.container.main>div.row>div:nth-child(2)`)) || "";
 
-        const job_type = jobTypeElement
+        let job_type = jobTypeElement
           ? await jobTypeElement.evaluate((el) => el.textContent)
           : "";
         const email = emailElement
           ? await emailElement.evaluate((el) => el.textContent)
           : "";
-        const description = descElement
+        let description = descElement
           ? await descElement.evaluate((el) => el.textContent)
           : "";
 
+        job_type = job_type.replace(/[()]/g, '')
+        description = description.replace(/\n/g, "")
+        let index = description.indexOf("ago");
+        description = description.substring(index + 3).trim();
+
         tmp[i] = {
           ...tmp[i],
-          job_type,
-          email,
-          description: description.replace(/\n/g, "").trim(),
+          q_job_type: job_type,
+          ag_email: email,
+          r_description: description,
         };
-      } catch (error) {}
+      } catch (error) { }
     }
   }
 
