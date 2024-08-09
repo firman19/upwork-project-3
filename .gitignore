@@ -2,5 +2,5 @@
 /scraping/export
 /scraping/glassdoors/results
 /scraping/ajarn/results
-/scraping/china_esl/results
+/scraping/china_esl/results/*
 /scraping/chinajobs/results

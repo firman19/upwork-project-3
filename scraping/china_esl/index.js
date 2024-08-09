@@ -96,6 +96,7 @@ const main = async () => {
       let title = titleElement
         ? await titleElement.evaluate((el) => el.textContent)
         : "";
+      title = title.replace(/\n/g, "").trim();
 
       let job_type = jobTypeElement
         ? await jobTypeElement.evaluate((el) => el.getAttribute("src"))
@@ -108,21 +109,67 @@ const main = async () => {
       let time = timeElement
         ? await timeElement.evaluate((el) => el.textContent)
         : "";
+      time = time.replace(/\n/g, "").trim();
 
       jobs_arr.push({
-        post_date: time.replace(/\n/g, "").trim(),
-        job_title: title.replace(/\n/g, "").trim(),
-        job_type: getJobType(job_type),
-        company_url: link,
-        //   salary: salary.replace(/\n/g, "").trim(),
-        //   city: city.replace(/\n/g, "").trim(),
-        //   business_name: company,
-        //   featured: featured ? "YES" : "NO",
+        a_date_farmed: "09/08/2024",
+        b_source: "China ESL",
+        c_scraped_url: pageURL,
+        d: "New Lead",
+        e: "Opportunity",
+        f: "",
+        g: "Lara",
+        h: "Lara",
+        i: "Scraping",
+        j: "EDU Business",
+        k: "EDU Jobs",
+        l_subcategory: "",
+        m_post_date: time,
+        n_featured: "",
+        o_job_title: title.replace(/\n/g, "").trim(),
+        p_online: "",
+        q_job_type: getJobType(job_type),
+        r_description: "",
+        s_student_category: "",
+        t_subject: "",
+        u_salary: "",
+        v_currency: "",
+        w_requirements: "",
+        x_benefits: "",
+        y_address: "",
+        z_city: "",
+        aa_state: "",
+        ab_country: "China",
+        ac_region: "East Asia",
+        ad_business_name: "",
+        ae_description: "",
+        af_website: "",
+        ag_email: "",
+        ah_phone: "",
+        ai_country: "",
+        aj_region: "",
+        ak_first_name: "",
+        al_last_name: "",
+        am_job_title: "",
+        an_linkedin: "",
+        ao_contact_email: "",
+        ap_countr: "",
+        aq_region: "",
+        ar_instagram: "",
+        as_facebook: "",
+        at_x_twitter: "",
+        au_tiktok: "",
+        av_youtube: "",
+        aw_linkedin: "",
+        ax_whatsapp: "",
+        ay_wechat: "",
+        az_line: "",
+        ba_kakao: "",
+        zz_company_url: link,
       });
     }
   }
 
-  console.log(jobs_arr);
   console.log("Saving json...");
   await writeFile(
     `results/chinaesl_${category}_tmp.json`,
