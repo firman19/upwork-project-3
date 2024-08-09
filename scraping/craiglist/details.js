@@ -14,7 +14,7 @@ const main = async () => {
   console.log("Length: " + tmp.length);
 
   for (let i = 0; i < tmp.length; i++) {
-    let scraped_url = tmp[i].scraped_url;
+    let scraped_url = tmp[i].c_scraped_url;
     let company_url = tmp[i].company_url;
     console.log("Process:" + i + "/" + tmp.length);
 
@@ -50,24 +50,28 @@ const main = async () => {
           ? await salaryElement.evaluate((el) => el.textContent)
           : "";
 
+        let index = job_desc.indexOf("QR Code Link to This Post");
+        job_desc = job_desc.substring(index + 25).trim();
+
+
         tmp[i] = {
           ...tmp[i],
-          job_title: job_title
-          .replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
-          job_type: job_type.replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
-          business_name: business_name.replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
-          salary: salary.replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
-          description: job_desc.replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
+          o_job_title: job_title
+            .replace(/(\r\n|\n|\r|\t)/gm, "")
+            .replace("\t", "")
+            .trim(),
+          q_job_type: job_type.replace(/(\r\n|\n|\r|\t)/gm, "")
+            .replace("\t", "")
+            .trim(),
+          r_description: job_desc.replace(/(\r\n|\n|\r|\t)/gm, "")
+            .replace("\t", "")
+            .trim(),
+          u_salary: salary.replace(/(\r\n|\n|\r|\t)/gm, "")
+            .replace("\t", "")
+            .trim(),
+          ad_business_name: business_name.replace(/(\r\n|\n|\r|\t)/gm, "")
+            .replace("\t", "")
+            .trim(),
         };
       } catch (error) {
         console.log(error);
