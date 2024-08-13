@@ -5,11 +5,11 @@ import tmp from "./results/chinajobs_full.json" with { type: "json" }
 
 const main = async () => {
     for (let i = 0; i < tmp.length; i++) {
-        let currDesc = tmp[i].description;
+        let currDesc = tmp[i].r_description;
         currDesc = currDesc.replace(/(\r\n|\n|\r|\t)/gm, "").trim();
         tmp[i] = {
             ...tmp[i],
-            description: currDesc,
+            r_description: currDesc,
           };
     }
 

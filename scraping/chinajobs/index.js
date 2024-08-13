@@ -15,7 +15,7 @@ const main = async () => {
 
   // handle pagination
   let counter = 1;
-  let lastPage = 152;
+  let lastPage = 154;
   const jobs_arr = [];
 
   while (counter <= lastPage) {
@@ -24,7 +24,8 @@ const main = async () => {
       const pageURL = URL + counter;
       counter = counter + 1;
       await page.goto(pageURL, {
-        waitUntil: "load",
+        waitUntil: "domcontentloaded",
+        timeout: 10000
       });
 
       // wait for the job list to display
@@ -93,9 +94,9 @@ const main = async () => {
           : "";
         let business_link = businessNameElement
           ? `https://www.chinajob.com/job/` +
-            (await businessNameElement.evaluate((el) =>
-              el.getAttribute("href")
-            ))
+          (await businessNameElement.evaluate((el) =>
+            el.getAttribute("href")
+          ))
           : "";
 
         let jobTypeElement =
@@ -123,42 +124,60 @@ const main = async () => {
           : "";
 
         jobs_arr.push({
-          date_farmed: "19/06/2024",
-          source: "ChinaJobs",
-          scraped_url: job_link,
+          a_date_farmed: "19/06/2024",
+          b_source: "ChinaJobs",
+          c_scraped_url: job_link,
           d: "New Lead",
           e: "Opportunity",
-          f: "Juan",
-          g: "Juan",
+          f: "",
+          g: "Lara",
           h: "Lara",
           i: "Scraping",
           j: "EDU Business",
           k: "EDU Jobs",
-          l: "Recruiters",
-          post_date: post_date,
-          n: "",
-          job_title: title.replace(/\n/g, "").trim(),
-          p: "",
-          job_type,
-          description: "",
-          s: "",
-          t: "",
-          salary,
-          v: "",
+          l_subcategory: "Recruiters",
+          m_post_date: post_date,
+          n_featured: "",
+          o_job_title: title.replace(/\n/g, "").trim(),
+          p_online: "",
+          q_job_type: job_type,
+          r_description: "",
+          s_student_category: "",
+          t_subject: "",
+          u_salary: salary,
+          v_currency: "",
           w_requirements: "",
           x_benefits: "",
-          y: "",
-          z: "",
-          aa_state_province: location,
+          y_address: "",
+          z_city: "",
+          aa_state: location,
           ab_country: "China",
           ac_region: "East Asia",
           business_name: business_name,
           ae_description: "",
           af_website: "",
-          ag: "",
-          ah: "",
+          ag_email: "",
+          ah_phone: "",
           ai_country: "",
-          company_url: business_link, // to get website
+          aj_region: "",
+          ak_first_name: "",
+          al_last_name: "",
+          am_job_title: "",
+          an_linkedin: "",
+          ao_contact_email: "",
+          ap_countr: "",
+          aq_region: "",
+          ar_instagram: "",
+          as_facebook: "",
+          at_x_twitter: "",
+          au_tiktok: "",
+          av_youtube: "",
+          aw_linkedin: "",
+          ax_whatsapp: "",
+          ay_wechat: "",
+          az_line: "",
+          ba_kakao: "",
+          zz_company_url: business_link, // to get website
         });
       } catch (error) {
         console.error(error);
