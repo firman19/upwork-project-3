@@ -25,7 +25,7 @@ const main = async () => {
       counter = counter + 1;
       await page.goto(pageURL, {
         waitUntil: "domcontentloaded",
-        timeout: 10000
+        timeout: 30000
       });
 
       // wait for the job list to display
@@ -124,7 +124,7 @@ const main = async () => {
           : "";
 
         jobs_arr.push({
-          a_date_farmed: "19/06/2024",
+          a_date_farmed: "14/08/2024",
           b_source: "ChinaJobs",
           c_scraped_url: job_link,
           d: "New Lead",
