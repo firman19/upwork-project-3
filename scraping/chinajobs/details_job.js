@@ -77,6 +77,7 @@ const main = async () => {
     //     console.error(error);
     //   }
     // }
+
     if (company_url) {
       console.log("Opening company_url");
       try {
@@ -108,11 +109,11 @@ const main = async () => {
   }
 
   console.log("Saving json...");
-  await writeFile(`results/chinajobs_full_scraped_company_url.json`, JSON.stringify(tmp, null, 2));
+  await writeFile(`results/chinajobs_full_scraped_url_company_url.json`, JSON.stringify(tmp, null, 2));
 
   console.log("Saving csv...");
   const csv = parse(tmp);
-  await writeFile(`results/chinajobs_full_scraped_company_url.csv`, csv);
+  await writeFile(`results/chinajobs_full_scraped_url_company_url.csv`, csv);
   await browser.close();
 };
 

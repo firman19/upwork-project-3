@@ -227,7 +227,7 @@ const main = async (curr_process) => {
       jobs_arr.push({
         a_date_farmed: "13/08/2024",
         b_source: "Glassdoor",
-        c_scraped_url: URL,
+        c_scraped_url: arr_URL[curr_process],
         d: "New Lead",
         e: "Opportunity",
         f: "",
