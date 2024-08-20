@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
 
-const curr_process = 0;
+const curr_process = 9;
 
 const arr_URL = [
   "https://www.glassdoor.com.au/Job/teaching-jobs-SRCH_KO0,8.htm",

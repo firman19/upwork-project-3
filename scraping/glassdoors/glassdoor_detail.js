@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
-import tmp from "./results/glassdoor_aug_tmp_ireland.json" with { type: "json" }
+import tmp from "./results/glassdoor_aug_tmp_br.json" with { type: "json" }
 
 const main = async () => {
   console.log("Length: " + tmp.length)
@@ -60,7 +60,7 @@ const main = async () => {
 
   console.log("Saving csv...");
   const csv = parse(tmp);
-  await writeFile(`results/glassdoor_aug_tmp_ireland_company.csv`, csv);
+  await writeFile(`results/glassdoor_aug_tmp_br_company.csv`, csv);
 };
 
 main();
