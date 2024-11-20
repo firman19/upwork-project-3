@@ -1,7 +1,7 @@
 /scraping/node_modules
 /scraping/export
-/scraping/glassdoors/results
+/scraping/glassdoors/results*
 /scraping/ajarn/results
 /scraping/china_esl/results/*
-/scraping/chinajobs/results
+/scraping/chinajobs/results*
 /scraping/allconferencealert.net/results
