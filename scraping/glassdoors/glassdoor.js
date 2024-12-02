@@ -49,15 +49,15 @@ const arr_currCountry = [
   "italy",
   "mexico",
   "ned",
-  "nz",
+  "nz", // blocked
 
-  "sg",
+  "sg", // blocked
   "spain",
   "swiss",
-  "switzerland",
-  "uk",
+  "switzerland", // blocked
+  "uk", // blocked
 
-  "us",
+  "us", // blocked
 ]
 
 const main = async (curr_process) => {
