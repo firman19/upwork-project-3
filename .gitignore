@@ -4,4 +4,6 @@
 /scraping/ajarn/results
 /scraping/china_esl/results/*
 /scraping/chinajobs/results*
+/scraping/10Times/results/*
+/scraping/10Times/results/
 /scraping/allconferencealert.net/results
