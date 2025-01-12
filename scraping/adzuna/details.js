@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
 
-import tmp from "./results/adzuna_tmp.json" with { type: "json" }
+import tmp from "./results/adzuna_tmp.json" assert { type: "json" };
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -27,31 +27,43 @@ const main = async () => {
 
         /** Define elements */
         let salary_Element = (await page.$(`table>tbody`)) || "";
-        let job_type_Element = (await page.$(`table>tbody>tr:last-child`)) || "";
+        let contract_type_Element = (await page.$(`.ui-contract-type`)) || "";
+        let contract_time_Element = (await page.$(`.ui-contract-time`)) || "";
         let jobDescElement = (await page.$(`section.adp-body`)) || "";
 
         /**Extract from elements */
         let job_desc = jobDescElement
           ? await jobDescElement.evaluate((el) => el.textContent)
           : "";
-        let job_type = job_type_Element
-          ? await job_type_Element.evaluate((el) => el.textContent)
+        let contract_type = contract_type_Element
+          ? await contract_type_Element.evaluate((el) => el.textContent)
+          : "";
+        let contract_time = contract_time_Element
+          ? await contract_time_Element.evaluate((el) => el.textContent)
           : "";
         let salary = salary_Element
           ? await salary_Element.evaluate((el) => el.textContent)
           : "";
+        contract_type = contract_type
+          .replace(/(\r\n|\n|\r|\t)/gm, "")
+          .replace("\t", "")
+          .trim();
+        contract_time = contract_time
+          .replace(/(\r\n|\n|\r|\t)/gm, "")
+          .replace("\t", "")
+          .trim();
 
         tmp[i] = {
           ...tmp[i],
-          description: job_desc.replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
-          job_type: job_type.replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
-          salary: salary.replace(/(\r\n|\n|\r|\t)/gm, "")
-          .replace("\t", "")
-          .trim(),
+          description: job_desc
+            .replace(/(\r\n|\n|\r|\t)/gm, "")
+            .replace("\t", "")
+            .trim(),
+          job_type: contract_type + ", " + contract_time,
+          // salary: salary
+          //   .replace(/(\r\n|\n|\r|\t)/gm, "")
+          //   .replace("\t", "")
+          //   .trim(),
         };
       } catch (error) {
         console.log(error);

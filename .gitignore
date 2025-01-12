@@ -1,6 +1,8 @@
 /scraping/node_modules
 /scraping/export
 /scraping/glassdoors/results*
+/scraping/adzuna/results/*
+/scraping/adzuna/results*
 /scraping/ajarn/results
 /scraping/china_esl/results/*
 /scraping/chinajobs/results*

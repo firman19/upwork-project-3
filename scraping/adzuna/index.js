@@ -27,9 +27,11 @@ const main = async () => {
         waitUntil: "load",
       });
 
+      console.log("wait for the job list to display");
+
       // wait for the job list to display
       await page.waitForFunction(
-        () => document.querySelectorAll(`div.ui-search-results`).length
+        () => document.querySelectorAll(`main.ui-search-results`).length
       );
       console.log("joblist has been displayed");
     } catch (error) {
@@ -41,7 +43,7 @@ const main = async () => {
     let totalJob = 0;
     totalJob = await page.evaluate(() => {
       const jobElements = document.querySelectorAll(
-        `div.ui-search-results>div[data-aid]`
+        `main.ui-search-results>article[data-aid]`
       );
       return jobElements.length;
     });
@@ -53,15 +55,23 @@ const main = async () => {
         /** Define elements */
         let jobLinkElement =
           (await page.$(
-            `div.ui-search-results>div[data-aid]:nth-child(${i}) h2 a`
+            `main.ui-search-results>article[data-aid]:nth-child(${i}) h2 a`
           )) || "";
         let businessLinkElement =
           (await page.$(
-            `div.ui-search-results>div[data-aid]:nth-child(${i}) div.ui-company a`
+            `main.ui-search-results>article[data-aid]:nth-child(${i}) div.ui-company a`
+          )) || "";
+        let businessNameElement =
+          (await page.$(
+            `main.ui-search-results>article[data-aid]:nth-child(${i}) div.ui-company`
+          )) || "";
+        let salaryElement =
+          (await page.$(
+            `main.ui-search-results>article[data-aid]:nth-child(${i}) div.ui-salary`
           )) || "";
         let locationElement =
           (await page.$(
-            `div.ui-search-results>div[data-aid]:nth-child(${i}) div.ui-location`
+            `main.ui-search-results>article[data-aid]:nth-child(${i}) div.ui-location`
           )) || "";
 
         /** Retrieve values */
@@ -74,21 +84,24 @@ const main = async () => {
         let company_url = businessLinkElement
           ? await businessLinkElement.evaluate((el) => el.getAttribute("href"))
           : "";
-        let business_name = businessLinkElement
-          ? await businessLinkElement.evaluate((el) => el.textContent)
+        let business_name = businessNameElement
+          ? await businessNameElement.evaluate((el) => el.textContent)
+          : "";
+        let salary = salaryElement
+          ? await salaryElement.evaluate((el) => el.textContent)
           : "";
         let location = locationElement
           ? await locationElement.evaluate((el) => el.textContent)
           : "";
 
         jobs_arr.push({
-          date_farmed: "04/07/2024",
+          date_farmed: "12/01/2024",
           source: "Adzuna",
           scraped_url: job_link,
           d: "New Lead",
           e: "Opportunity",
-          f: "Juan",
-          g: "Juan",
+          f: "",
+          g: "",
           h: "Lara",
           i: "Scraping",
           j: "EDU Business",
@@ -102,7 +115,7 @@ const main = async () => {
           description: "",
           s: "",
           t: "",
-          salary: "",
+          salary: salary.replace(/\n/g, "").replace("TOP MATCH", "").replace("EASY APPLY", "").replace("CLOSING SOON", "").trim(),
           v: "",
           w_requirements: "",
           x_benefits: "",
