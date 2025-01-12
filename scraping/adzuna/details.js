@@ -59,6 +59,7 @@ const main = async () => {
             .replace(/(\r\n|\n|\r|\t)/gm, "")
             .replace("\t", "")
             .trim(),
+          // TODO: extract Requirements from description
           job_type: contract_type + ", " + contract_time,
           // salary: salary
           //   .replace(/(\r\n|\n|\r|\t)/gm, "")
