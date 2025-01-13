@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import { writeFile } from "fs/promises";
 import { parse } from "json2csv";
 
-import tmp from "./results/10Times_tmp_vietnam.json" with { type: "json" }
+import tmp from "./results/10Times_tmp_italy.json" with { type: "json" }
 
 const main = async () => {
   console.log("Length: " + tmp.length);
@@ -104,11 +104,11 @@ const main = async () => {
     }
 
     console.log("Saving json...");
-    await writeFile(`results/10Times_full_vietnam.json`, JSON.stringify(tmp, null, 2));
+    await writeFile(`results/10Times_full_italy.json`, JSON.stringify(tmp, null, 2));
 
     console.log("Saving csv...");
     const csv = parse(tmp);
-    await writeFile(`results/10Times_full_vietnam.csv`, csv);
+    await writeFile(`results/10Times_full_italy.csv`, csv);
   }
 };
 

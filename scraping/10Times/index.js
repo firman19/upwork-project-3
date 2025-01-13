@@ -23,15 +23,15 @@ const countries = [
   "india",
   "indonesia",
   "ireland",
-  "italy",
+  "italy", //17
   "mexico",
-  "netherlands",
+  "netherlands", //19
 
-  "poland",
+  "poland", //20
   "saudiarabia",
   "singapore",
   "southafrica",
-  "korea",
+  "korea", //24
   "spain",
   "switzerland",
   "unitedarabemirates",
@@ -40,9 +40,9 @@ const countries = [
 
   "vietnam",
 ];
-const currCountry = countries[30];
+const currCountry = countries[2];
 
-const URL = `https://10times.com/${currCountry}?kw=Education`;
+const URL = `https://10times.com/${currCountry}/education-training`;
 
 const main = async () => {
   const browser = await puppeteer.launch({
