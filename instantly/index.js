@@ -36,7 +36,11 @@ app.get("/campaigns", async (req, res) => {
 app.get("/leads", async (req, res) => {
   try {
     const { campaign_id } = req.query;
-    const { data } = await apiRequest("get", `leads/${campaign_id}`);
+    const payload = {
+      campaign: campaign_id,
+      limit: 100,
+    };
+    const { data } = await apiRequest("post", `leads/list`, payload);
     res.json(data);
   } catch (error) {
     res.status(error.response?.status || 500).json({
