@@ -105,6 +105,25 @@ app.post("/blocklist", async (req, res) => {
   }
 });
 
+
+// ZENDESK
+app.get("/zendesk/leads", async (req, res) => {
+  try {
+    const { campaign_id } = req.query;
+    const payload = {
+      campaign: campaign_id,
+      limit: 100,
+    };
+    const { data } = await apiRequest("post", `leads/list`, payload);
+    res.json(data);
+  } catch (error) {
+    res.status(error.response?.status || 500).json({
+      message: error.response?.data || "Internal Server Error",
+    });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
