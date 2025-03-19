@@ -6,6 +6,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const API_URL_INSTANTLY = process.env.API_URL_INSTANTLY;
 const API_TOKEN_INSTANTLY = process.env.API_TOKEN_INSTANTLY;
+const API_URL_ZENDESK = process.env.API_URL_ZENDESK;
+const API_TOKEN_ZENDESK = process.env.API_TOKEN_ZENDESK;
 
 // Middleware
 app.use(express.json());
@@ -20,7 +22,16 @@ const apiRequest = async (method, endpoint, data = {}) => {
   });
 };
 
-// Fetch campaigns
+const apiZendesk = async (method, endpoint, data = {}) => {
+  return axios({
+    method,
+    url: `${API_URL_ZENDESK}${endpoint}`,
+    headers: { Authorization: `Bearer ${API_TOKEN_ZENDESK}` },
+    data,
+  });
+};
+
+// Fetch campaigns Instantly
 app.get("/campaigns", async (req, res) => {
   try {
     const { data } = await apiRequest("get", "campaigns");
@@ -32,7 +43,7 @@ app.get("/campaigns", async (req, res) => {
   }
 });
 
-// Fetch leads from a campaign
+// Fetch leads from a campaign Instantly
 app.get("/leads", async (req, res) => {
   try {
     const { campaign_id } = req.query;
@@ -49,7 +60,7 @@ app.get("/leads", async (req, res) => {
   }
 });
 
-// Add lead to a campaign
+// Add lead to a campaign Instantly
 app.post("/leads", async (req, res) => {
   const { campaign, email, last_name, first_name, company_name, phone } =
     req.body;
@@ -86,7 +97,7 @@ app.post("/leads", async (req, res) => {
   }
 });
 
-// Add blocklist entry
+// Add blocklist entry Instantly
 app.post("/blocklist", async (req, res) => {
   const { bl_value } = req.body;
 
@@ -105,16 +116,22 @@ app.post("/blocklist", async (req, res) => {
   }
 });
 
-
 // ZENDESK
 app.get("/zendesk/leads", async (req, res) => {
   try {
-    const { campaign_id } = req.query;
+    const { email } = req.query;
+
+    console.log(email);
+
     const payload = {
-      campaign: campaign_id,
-      limit: 100,
+      email,
     };
-    const { data } = await apiRequest("post", `leads/list`, payload);
+
+    const queryString = new URLSearchParams(payload).toString();
+
+    console.log(queryString);
+
+    const { data } = await apiZendesk("get", `leads?${queryString}`);
     res.json(data);
   } catch (error) {
     res.status(error.response?.status || 500).json({
@@ -123,6 +140,46 @@ app.get("/zendesk/leads", async (req, res) => {
   }
 });
 
+// ZENDESK
+app.get("/test", async (req, res) => {
+  fetch(
+    "https://app.instantly.ai/backend-alt/api/v1/activity/list?campaign_id=31587373-9513-4e38-8cec-ebb099d5392d&lead=support%40bestbrilliance.com",
+    {
+      method: "GET",
+      headers: {
+        "x-org-auth":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3X2lkIjoiYmE2NmZkZTQtYjQyZS00NDNhLTlmNTgtNmNlMmU3MDI3NmFiIiwiaWF0IjoxNzQxNDU2MjIwfQ.ec7zPefW8GoQ-nSnTeAS-PAlxI-LfuSZiN9MVb0lVUo",
+        // accept: "application/json, text/plain, */*",
+        // "accept-encoding": "gzip, deflate, br, zstd",
+        // "accept-language": "en-US,en;q=0.9,id;q=0.8,la;q=0.7",
+        // "cache-control": "no-cache",
+        // pragma: "no-cache",
+        // referer:
+        //   "https://app.instantly.ai/app/campaign/31587373-9513-4e38-8cec-ebb099d5392d/leads",
+        // "sec-ch-ua":
+        //   '"Not(A:Brand";v="99", "Google Chrome";v="133", "Chromium";v="133"',
+        // "sec-ch-ua-mobile": "?0",
+        // "sec-ch-ua-platform": '"macOS"',
+        // "sec-fetch-dest": "empty",
+        // "sec-fetch-mode": "cors",
+        // "sec-fetch-site": "same-origin",
+        // "user-agent":
+        //   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        // cookie: "cf_clearance=JQusYNqvI6qDM0yMxs2H...",
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    res.json(data);
+
+    })
+    .catch((error) => console.error("Error:", error));
+
+    // event_type: -3, auto reply
+    // event_type: 1, sent
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
