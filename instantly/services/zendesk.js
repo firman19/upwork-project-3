@@ -3,7 +3,7 @@ import { convertEventToText } from "./helpers.js";
 import moment from "moment";
 
 export const Zendesk = {
-  getLeads: async (EMAIL) => {
+  getLeads: async (EMAIL = "") => {
     let result = false;
     const email = EMAIL;
 
@@ -23,6 +23,24 @@ export const Zendesk = {
 
     if (!result) {
       // result = `lead not found!!`;
+      result = false;
+    }
+
+    return result;
+  },
+
+  getAllLeads: async () => {
+    let result = false;
+
+    try {
+      const { data } = await apiZendesk("get", `leads`);
+      if (data?.items.length == 0) {
+        throw "Not found";
+      }
+      const lead = data.items;
+      result = lead;
+    } catch (error) {
+      // console.error(error);
       result = false;
     }
 

@@ -14,7 +14,7 @@ export const Instantly = {
     return result;
   },
 
-  getCampaingDetail: async (id) => {
+  getCampaignDetail: async (id) => {
     let result = false;
     try {
       const { data } = await apiRequest("get", `campaigns/${id}`);
@@ -31,13 +31,46 @@ export const Instantly = {
     try {
       const payload = {
         campaign: campaign_id,
-        limit: 20,
+        limit: 100, // max is 100
       };
 
       const { data } = await apiRequest("post", `leads/list`, payload);
       result = data;
     } catch (error) {
       // console.error(error);
+      result = false;
+    }
+    return result;
+  },
+
+  addLead: async (payload) => {
+    let result = false;
+    const { campaign, email, last_name, first_name, company_name, phone } =
+      payload;
+    try {
+      const obj = {
+        campaign, // campaign uuid
+        email, // lead email
+        last_name,
+        first_name,
+        company_name,
+        personalization: "",
+        website: "",
+        phone: "",
+        lt_interest_status: 1,
+        pl_value_lead: "",
+        // assigned_to: "a71781c4-60b3-4bdd-8306-8935aa036c0a", // ID of the user assigned to the lead
+        skip_if_in_workspace: false, // Skip lead if it exists in any campaigns in the workspace
+        skip_if_in_campaign: false, // Skip lead if it exists in a campaign
+        skip_if_in_list: false, // skip this email if it has been
+        verify_leads_for_lead_finder: false,
+        verify_leads_on_import: false,
+      };
+
+      const { data } = await apiRequest("post", `leads`, obj);
+      result = data;
+    } catch (error) {
+      console.error(error);
       result = false;
     }
     return result;
