@@ -27,42 +27,7 @@ function log(message) {
 }
 
 async function main(campaign_id) {
-  if (!campaign_id) {
-    log("❌ Error: campaign_id is required.");
-    return;
-  }
-
-  let CAMPAIGN_ID = campaign_id;
-  let CAMPAIGN_NAME = "";
-
-  log(`ℹ️  Looking up campaign ID: ${CAMPAIGN_ID}...`);
-
-  /** ========== Get campaign detail on Instantly begins ========== */
-  try {
-    const campaignDetail = await Instantly.getCampaignDetail(CAMPAIGN_ID);
-    CAMPAIGN_NAME = campaignDetail.name;
-    log(`✅ Campaign found: ${CAMPAIGN_NAME}`);
-  } catch (err) {
-    log(`❌ Failed to get campaign detail: ${err.message}`);
-    return;
-  }
-  /** ========== Get campaign detail on Instantly ends ========== */
-
-  /** ========== Get leads in campaign on Instantly begins ========== */
-  let leads = null;
-  try {
-    leads = await Instantly.getLeads(CAMPAIGN_ID);
-    log(`[INSTANTLY] Leads: ${leads?.items?.length ?? 0} leads`);
-  } catch (err) {
-    log(`❌ Failed to fetch leads: ${err.message}`);
-    return;
-  }
-
-  if (!leads || leads?.items?.length === 0) {
-    return;
-  }
-  //   Todo: store all leads on a campaign to a json file
-  /** ========== Get leads in campaign on Instantly ends ========== */
+  // todo: get leads from files
 
   let instantlyActivityLeads = 0;
   let zendeskLeads = 0;
@@ -74,7 +39,7 @@ async function main(campaign_id) {
     /** ========== Get lead's activities on Instantly begins ========== */
     let activity_list = [];
     try {
-      activity_list = await Instantly.getActivity(CAMPAIGN_ID, EMAIL);
+      activity_list = await Instantly.getActivity(campaign_id, EMAIL);
       log(
         `[INSTANTLY] Activities on ${EMAIL}: ${
           activity_list?.length ?? "⚠️  No activity found"

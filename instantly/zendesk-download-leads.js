@@ -8,7 +8,11 @@ const __dirname = path.resolve();
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
 fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
 
-const logFile = path.join(__dirname, "logs", `${today}_zendesk_download_leads.txt`);
+const logFile = path.join(
+  __dirname,
+  "logs",
+  `${today}_zendesk_download_leads.txt`
+);
 const logStream = fs.createWriteStream(logFile, { flags: "a" });
 
 const eduBusinessFilename = `${today}_edu_business.json`;
@@ -64,6 +68,13 @@ async function main() {
         for (let i = 0; i < data.items.length; i++) {
           const element = data.items[i];
           const custom_fields = element.data.custom_fields;
+
+          // todo: store only this information:
+          // email: element.data.email,
+          // last_name: element.data.last_name,
+          // first_name: element.data.first_name,
+          // company_name: element.data.organization_name,
+          // phone: element.data.phone,
 
           let userTypeArray = custom_fields?.["User Type"] || [];
           const userTypes = Array.isArray(userTypeArray)

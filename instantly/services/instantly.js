@@ -26,12 +26,13 @@ export const Instantly = {
     return result;
   },
 
-  getLeads: async (campaign_id) => {
+  getLeads: async (campaign_id, starting_after = "") => {
     let result = false;
     try {
       const payload = {
         campaign: campaign_id,
-        limit: 100, // max is 100
+        limit: 1, // max is 100
+        starting_after: starting_after,
       };
 
       const { data } = await apiRequest("post", `leads/list`, payload);
