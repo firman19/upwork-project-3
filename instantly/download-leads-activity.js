@@ -1,25 +1,22 @@
 import { Instantly } from "./services/instantly.js";
-import {
-  Zendesk,
-  generateNotesJson,
-  generateTaskJson,
-} from "./services/zendesk.js";
 import fs from "fs";
 import path from "path";
+
+const campaignIdFromCLI = process.argv[2];
 
 const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
-fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+fs.mkdirSync(path.join(__dirname, "data/leads-activity"), { recursive: true });
 
-const leadsInstantlyFileName = `${today}_instantly.json`;
-const leadsInstantlyPath = path.join(__dirname, "data", leadsInstantlyFileName);
+const leadsInstantlyFileName = `${today}_${campaignIdFromCLI}.json`;
+const leadsInstantlyPath = path.join(__dirname, "data/leads-activity", leadsInstantlyFileName);
 
 const logFileUpload = path.join(
   __dirname,
   "logs",
-  `${today}_instantly_download_leads.log`
+  `${today}_download-leads-activity.log`
 );
 const logStream = fs.createWriteStream(logFileUpload, { flags: "a" });
 
@@ -39,9 +36,10 @@ async function main(campaign_id) {
   let CAMPAIGN_ID = campaign_id;
   let CAMPAIGN_NAME = "";
 
-  log(`ℹ️  Looking up campaign with ID: ${CAMPAIGN_ID}...`);
-
+  log(`🚀 Starting download-lead-activity...`);
+  
   /** ========== Fetch Campaign Details ========== */
+  log(`ℹ️  Looking up campaign with ID: ${CAMPAIGN_ID}...`);
   try {
     const campaignDetail = await Instantly.getCampaignDetail(CAMPAIGN_ID);
     CAMPAIGN_NAME = campaignDetail.name;
@@ -70,11 +68,25 @@ async function main(campaign_id) {
       log(`🔁 Next cursor: ${nextCursor ?? "none (end of leads)"}`);
 
       if (leads?.items?.length) {
+        // get activity for each leads
+        let leadActivities = []
+
         // Merge new leads into the total collection
-        // todo: store only leads?.items[0]?.email;
-        all_leads = [...all_leads, ...leads.items];
+        let newLeads = leads.items.map((e, i) => {
+          return {
+            email: e.email,
+          }
+        })
+
+        for (let i = 0; i < newLeads.length; i++) {
+          const el = newLeads[i];
+          leadActivities = await downloadLeadActivity(CAMPAIGN_ID, el.email)
+          newLeads[i].activity_list = leadActivities
+        }
+
+        all_leads = [...all_leads, ...newLeads];
         // Increment the total count
-        total_leads += leads.items.length;
+        total_leads += newLeads.length;
       }
 
       // Update pagination cursor, or stop if none is returned
@@ -86,10 +98,16 @@ async function main(campaign_id) {
   }
 
   /** ========== Save to File ========== */
+  const file_content = {
+    campaign_name: CAMPAIGN_NAME,
+    campaign_id: CAMPAIGN_ID,
+    leads: all_leads
+  }
+
   try {
     fs.writeFileSync(
       leadsInstantlyPath,
-      JSON.stringify(all_leads, null, 2),
+      JSON.stringify(file_content, null, 2),
       "utf8"
     );
     log(`📁 Leads saved to: ${leadsInstantlyPath}`);
@@ -100,10 +118,26 @@ async function main(campaign_id) {
 
   /** ========== Summary ========== */
   log(`✅ Lead fetch complete. Total leads collected: ${total_leads}`);
+  log("============================");
+
   logStream.close();
 }
 
-const campaignIdFromCLI = process.argv[2];
+async function downloadLeadActivity(campaign_id, EMAIL) {
+  let activity_list = [];
+  try {
+    activity_list = await Instantly.getActivity(campaign_id, EMAIL);
+    log(
+      `Activity of ${EMAIL}: ${activity_list?.length ?? "⚠️  No activity found"
+      }`
+    );
+  } catch (err) {
+    log(`❌ Failed to get activity for ${EMAIL}: ${err.message}`);
+  }
+
+  return activity_list
+}
+
 main(campaignIdFromCLI);
 
 // let CAMPAIGN_ID = `a51077ca-46bb-42f6-8e6d-154d598678a4`;

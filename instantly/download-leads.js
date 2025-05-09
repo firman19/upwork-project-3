@@ -6,12 +6,12 @@ const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
-fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+fs.mkdirSync(path.join(__dirname, "data/leads"), { recursive: true });
 
 const logFile = path.join(
   __dirname,
   "logs",
-  `${today}_zendesk_download_leads.txt`
+  `${today}_download-leads.log`
 );
 const logStream = fs.createWriteStream(logFile, { flags: "a" });
 
@@ -23,13 +23,13 @@ const postedEventFilename = `${today}_posted_event.json`;
 const investedAdFilename = `${today}_invested_ad.json`;
 const offeredDealFilename = `${today}_offered_deal.json`;
 
-const eduBusinessPath = path.join(__dirname, "data", eduBusinessFilename);
-const educatorPath = path.join(__dirname, "data", educatorFilename);
-const vendorPath = path.join(__dirname, "data", vendorFilename);
-const postedJobPath = path.join(__dirname, "data", postedJobFilename);
-const postedEventPath = path.join(__dirname, "data", postedEventFilename);
-const investedAdPath = path.join(__dirname, "data", investedAdFilename);
-const offeredDealPath = path.join(__dirname, "data", offeredDealFilename);
+const eduBusinessPath = path.join(__dirname, "data/leads", eduBusinessFilename);
+const educatorPath = path.join(__dirname, "data/leads", educatorFilename);
+const vendorPath = path.join(__dirname, "data/leads", vendorFilename);
+const postedJobPath = path.join(__dirname, "data/leads", postedJobFilename);
+const postedEventPath = path.join(__dirname, "data/leads", postedEventFilename);
+const investedAdPath = path.join(__dirname, "data/leads", investedAdFilename);
+const offeredDealPath = path.join(__dirname, "data/leads", offeredDealFilename);
 
 function log(message) {
   const timestamp = new Date().toISOString();
@@ -51,16 +51,16 @@ async function main() {
   let obj_triggerType_offered_deal = [];
   let total_leads = 0;
 
-  log(`🚀 Starting lead download...`);
+  log(`🚀 Starting download-lead...`);
   while (next_page) {
     log(`📦 Fetching page ${page}...`);
 
     const payload = { per_page, page };
     const queryString = new URLSearchParams(payload).toString();
-
+    let data = null;
     try {
-      const { data } = await apiZendesk("get", `leads?${queryString}`);
-
+      const resp = await apiZendesk("get", `leads?${queryString}`);
+      data = resp.data
       if (data?.items) {
         log(`  → Retrieved ${data.items.length} items.`);
         total_leads += data.items.length;
@@ -69,44 +69,52 @@ async function main() {
           const element = data.items[i];
           const custom_fields = element.data.custom_fields;
 
-          // todo: store only this information:
-          // email: element.data.email,
-          // last_name: element.data.last_name,
-          // first_name: element.data.first_name,
-          // company_name: element.data.organization_name,
-          // phone: element.data.phone,
+          let newElement = {
+            email: element.data.email,
+            last_name: element.data.last_name,
+            first_name: element.data.first_name,
+            organization_name: element.data.organization_name,
+            phone: element.data.phone,
+          }
 
           let userTypeArray = custom_fields?.["User Type"] || [];
-          const userTypes = Array.isArray(userTypeArray)
-            ? userTypeArray.map((t) => t.toLowerCase())
-            : [];
+          let userTypes;
+          if (Array.isArray(userTypeArray)) {
+            userTypes = userTypeArray.map((t) => t.toLowerCase())
+          } else {
+            userTypes = userTypeArray.toLowerCase();
+          }
 
           let triggerTypeArray = custom_fields?.["Trigger type"] || [];
-          const triggerTypes = Array.isArray(triggerTypeArray)
-            ? triggerTypeArray.map((t) => t.toLowerCase())
-            : [];
+          let triggerTypes;
+          if (Array.isArray(triggerTypeArray)) {
+            triggerTypes = triggerTypeArray.map((t) => t.toLowerCase())
+          } else {
+            triggerTypes = triggerTypeArray.toLowerCase();
+          }
 
           if (triggerTypes.includes("posted a job")) {
-            obj_triggerType_posted_job.push(element);
+            obj_triggerType_posted_job.push(newElement);
           }
           if (triggerTypes.includes("posted an event")) {
-            obj_triggerType_posted_event.push(element);
+            obj_triggerType_posted_event.push(newElement);
           }
           if (triggerTypes.includes("invested in an ad")) {
-            obj_triggerType_invested_ad.push(element);
+            obj_triggerType_invested_ad.push(newElement);
           }
           if (triggerTypes.includes("offered a deal")) {
-            obj_triggerType_offered_deal.push(element);
+            obj_triggerType_offered_deal.push(newElement);
           }
+
           if (!triggerTypes || triggerTypes.length == 0) {
             if (userTypes.includes("edu business")) {
-              obj_userType_edu_business.push(element);
+              obj_userType_edu_business.push(newElement);
             }
             if (userTypes.includes("educator")) {
-              obj_userType_educator.push(element);
+              obj_userType_educator.push(newElement);
             }
             if (userTypes.includes("vendor")) {
-              obj_userType_vendor.push(element);
+              obj_userType_vendor.push(newElement);
             }
           }
         }
@@ -118,10 +126,10 @@ async function main() {
     }
 
     page++;
-    next_page = data.meta.links?.next_page ?? false;
+    next_page = data?.meta.links?.next_page ?? false;
   }
 
-  fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+  // fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
   fs.writeFileSync(
     eduBusinessPath,
     JSON.stringify(obj_userType_edu_business, null, 2),
@@ -172,8 +180,9 @@ async function main() {
   log(
     `📁 Saved ${obj_triggerType_offered_deal.length} to data/offered_deal.json`
   );
+  log("============================");
 
-  logStream.end();
+  logStream.close();
 }
 
 main();

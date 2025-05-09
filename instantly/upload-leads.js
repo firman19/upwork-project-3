@@ -6,9 +6,9 @@ const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
-fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+fs.mkdirSync(path.join(__dirname, "data/leads"), { recursive: true });
 
-const logFileUpload = path.join(__dirname, "logs", `${today}_instantly_upload_leads.txt`);
+const logFileUpload = path.join(__dirname, "logs", `${today}_upload-leads.log`);
 const logUploadStream = fs.createWriteStream(logFileUpload, { flags: "a" });
 
 const eduBusinessFilename = `${today}_edu_business.json`;
@@ -19,13 +19,13 @@ const postedEventFilename = `${today}_posted_event.json`;
 const investedAdFilename = `${today}_invested_ad.json`;
 const offeredDealFilename = `${today}_offered_deal.json`;
 
-const eduBusinessPath = path.join(__dirname, "data", eduBusinessFilename);
-const educatorPath = path.join(__dirname, "data", educatorFilename);
-const vendorPath = path.join(__dirname, "data", vendorFilename);
-const postedJobPath = path.join(__dirname, "data", postedJobFilename);
-const postedEventPath = path.join(__dirname, "data", postedEventFilename);
-const investedAdPath = path.join(__dirname, "data", investedAdFilename);
-const offeredDealPath = path.join(__dirname, "data", offeredDealFilename);
+const eduBusinessPath = path.join(__dirname, "data/leads", eduBusinessFilename);
+const educatorPath = path.join(__dirname, "data/leads", educatorFilename);
+const vendorPath = path.join(__dirname, "data/leads", vendorFilename);
+const postedJobPath = path.join(__dirname, "data/leads", postedJobFilename);
+const postedEventPath = path.join(__dirname, "data/leads", postedEventFilename);
+const investedAdPath = path.join(__dirname, "data/leads", investedAdFilename);
+const offeredDealPath = path.join(__dirname, "data/leads", offeredDealFilename);
 
 const CAMPAIGN_EDU_JOB = process.env.CAMPAIGN_EDU_JOB || "";
 const CAMPAIGN_EVENT = process.env.CAMPAIGN_EVENT || "";
@@ -51,14 +51,14 @@ async function uploadLeadsToCampaign(campaign_id, leads, callback) {
 
   for (let i = 0; i < leads.length; i++) {
     const element = leads[i];
-    if (element.data.email) {
+    if (element.email) {
       let leadPayload = {
         campaign: campaign_id,
-        email: element.data.email,
-        last_name: element.data.last_name,
-        first_name: element.data.first_name,
-        company_name: element.data.organization_name,
-        phone: element.data.phone,
+        email: element.email,
+        last_name: element.last_name,
+        first_name: element.first_name,
+        company_name: element.organization_name,
+        phone: element.phone,
       };
 
       try {
@@ -77,6 +77,8 @@ async function uploadLeadsToCampaign(campaign_id, leads, callback) {
 }
 
 async function main() {
+  log(`🚀 Starting upload-lead...`);
+
   let results = {
     job: { read: 0, uploaded: 0, error: null },
     event: { read: 0, uploaded: 0, error: null },
@@ -86,6 +88,7 @@ async function main() {
     vendor: { read: 0, uploaded: 0, error: null },
     business: { read: 0, uploaded: 0, error: null },
   };
+
   try {
     // Job leads
     logUpload("📁 Reading postedJobPath...");
@@ -187,6 +190,9 @@ async function main() {
   } catch (error) {
     logUpload(`❌ Error in uploading leads: ${error.message}`);
   }
+  log("============================");
+
+  logUploadStream.close();
 }
 
 main();

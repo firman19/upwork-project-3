@@ -31,7 +31,7 @@ export const Instantly = {
     try {
       const payload = {
         campaign: campaign_id,
-        limit: 1, // max is 100
+        limit: 100, // max is 100
         starting_after: starting_after,
       };
 
