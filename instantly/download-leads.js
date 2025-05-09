@@ -185,4 +185,4 @@ async function main() {
   logStream.close();
 }
 
-main();
+export default main;

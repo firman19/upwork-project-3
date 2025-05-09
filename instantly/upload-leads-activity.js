@@ -6,7 +6,7 @@ import {
 import fs from "fs";
 import path from "path";
 
-const campaignIdFromCLI = process.argv[2];
+const campaignIdFromCLI = process.argv[3];
 const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
@@ -27,8 +27,12 @@ function log(message) {
 
 const leadsActivityFilename = `${today}_${campaignIdFromCLI}.json`
 const leadsActivityPath = path.join(__dirname, "data/leads-activity", leadsActivityFilename);
+export default async function uploadLeadsActivity(campaign_id) {
+  if (!campaign_id) {
+    log("❌ Error: campaign_id is required.");
+    return;
+  }
 
-async function main(campaign_id) {
   log(`🚀 Starting upload-lead-activity...`);
 
   log("📁 Reading files...");
@@ -129,8 +133,12 @@ async function main(campaign_id) {
   logStream.close();
 }
 
-main(campaignIdFromCLI);
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const campaignIdFromCLI = process.argv[2];
+  uploadLeadsActivity(campaignIdFromCLI);
+}
 
+// main(campaignIdFromCLI);
 // let CAMPAIGN_ID = `a51077ca-46bb-42f6-8e6d-154d598678a4`;
 // let CAMPAIGN_NAME = `Cold Educator A/B`;
 // let EMAIL = `firmansyah@elementaryschools.org`;

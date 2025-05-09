@@ -2,7 +2,7 @@ import { Instantly } from "./services/instantly.js";
 import fs from "fs";
 import path from "path";
 
-const campaignIdFromCLI = process.argv[2];
+const campaignIdFromCLI = process.argv[3];
 
 const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
@@ -27,7 +27,7 @@ function log(message) {
   logStream.write(fullMessage + "\n");
 }
 
-async function main(campaign_id) {
+export default async function downloadLeadsActivity(campaign_id) {
   if (!campaign_id) {
     log("❌ Error: campaign_id is required.");
     return;
@@ -37,7 +37,7 @@ async function main(campaign_id) {
   let CAMPAIGN_NAME = "";
 
   log(`🚀 Starting download-lead-activity...`);
-  
+
   /** ========== Fetch Campaign Details ========== */
   log(`ℹ️  Looking up campaign with ID: ${CAMPAIGN_ID}...`);
   try {
@@ -80,7 +80,7 @@ async function main(campaign_id) {
 
         for (let i = 0; i < newLeads.length; i++) {
           const el = newLeads[i];
-          leadActivities = await downloadLeadActivity(CAMPAIGN_ID, el.email)
+          leadActivities = await getLeadActivity(CAMPAIGN_ID, el.email)
           newLeads[i].activity_list = leadActivities
         }
 
@@ -123,7 +123,7 @@ async function main(campaign_id) {
   logStream.close();
 }
 
-async function downloadLeadActivity(campaign_id, EMAIL) {
+async function getLeadActivity(campaign_id, EMAIL) {
   let activity_list = [];
   try {
     activity_list = await Instantly.getActivity(campaign_id, EMAIL);
@@ -138,8 +138,13 @@ async function downloadLeadActivity(campaign_id, EMAIL) {
   return activity_list
 }
 
-main(campaignIdFromCLI);
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const campaignIdFromCLI = process.argv[2];
+  downloadLeadsActivity(campaignIdFromCLI);
+}
 
+
+// main(campaignIdFromCLI);
 // let CAMPAIGN_ID = `a51077ca-46bb-42f6-8e6d-154d598678a4`;
 // let CAMPAIGN_NAME = `Cold Educator A/B`;
 // let EMAIL = `firmansyah@elementaryschools.org`;

@@ -195,4 +195,4 @@ async function main() {
   logUploadStream.close();
 }
 
-main();
+export default main;
