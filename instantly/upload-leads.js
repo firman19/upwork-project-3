@@ -51,6 +51,7 @@ async function uploadLeadsToCampaign(campaign_id, leads, callback) {
 
       try {
         await Instantly.addLead(leadPayload);
+        await knex('leads').where('email', leadPayload.email).update({ uploaded_at: new Date() });
         logUpload(`✅ Uploaded lead: ${leadPayload.email}`);
       } catch (err) {
         logUpload(

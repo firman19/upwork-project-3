@@ -120,6 +120,8 @@ export default async function uploadLeadsActivity(campaign_id) {
         }
       }
     }
+
+    await knex('leads_activity').where('campaign_id', campaign_id).where('email', EMAIL).update({ uploaded_at: new Date() });
   }
 
   log("===== 🧾 FINAL SUMMARY =====");
