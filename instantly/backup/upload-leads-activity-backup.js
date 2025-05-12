@@ -2,14 +2,15 @@ import {
   Zendesk,
   generateNotesJson,
   generateTaskJson,
-} from "./services/zendesk.js";
+} from "../services/zendesk.js";
 import fs from "fs";
 import path from "path";
-import knexConfig from './knexfile.js';
+import knexConfig from '../knexfile.js';
 import Knex from 'knex';
 import { exit } from "process";
 
 const knex = Knex(knexConfig);
+const campaignIdFromCLI = process.argv[3];
 const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
@@ -28,6 +29,8 @@ function log(message) {
   logStream.write(fullMessage + "\n");
 }
 
+const leadsActivityFilename = `${today}_${campaignIdFromCLI}.json`
+const leadsActivityPath = path.join(__dirname, "data/leads-activity", leadsActivityFilename);
 export default async function uploadLeadsActivity(campaign_id) {
   if (!campaign_id) {
     log("❌ Error: campaign_id is required.");
@@ -36,8 +39,12 @@ export default async function uploadLeadsActivity(campaign_id) {
 
   log(`🚀 Starting upload-lead-activity...`);
 
-  log("Reading database...");
+  log("📁 Reading files...");
+  // const fileContent = JSON.parse(fs.readFileSync(leadsActivityPath, "utf8"));
+  // let CAMPAIGN_NAME = fileContent.campaign_name
   let CAMPAIGN_NAME = '';
+  // const leadsActivity = fileContent.leads
+
   let leadsActivity = await knex('leads_activity').where('campaign_id', campaign_id).select('*');
 
   if (!leadsActivity || leadsActivity?.length == 0) {
@@ -139,3 +146,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const campaignIdFromCLI = process.argv[2];
   uploadLeadsActivity(campaignIdFromCLI);
 }
+
+// main(campaignIdFromCLI);
+// let CAMPAIGN_ID = `a51077ca-46bb-42f6-8e6d-154d598678a4`;
+// let CAMPAIGN_NAME = `Cold Educator A/B`;
+// let EMAIL = `firmansyah@elementaryschools.org`;
+// Get the 3rd argument (0 = node, 1 = upload-lead-activity.js, 2 = your parameter)

@@ -1,16 +1,22 @@
-import { Instantly } from "./services/instantly.js";
+import { Instantly } from "../services/instantly.js";
 import fs from "fs";
 import path from "path";
-import knexConfig from './knexfile.js';
+import knexConfig from '../knexfile.js';
 import Knex from 'knex';
 import { exit } from "process";
 
 const knex = Knex(knexConfig);
+const campaignIdFromCLI = process.argv[3];
 
 const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
+fs.mkdirSync(path.join(__dirname, "data/leads-activity"), { recursive: true });
+
+const leadsInstantlyFileName = `${today}_${campaignIdFromCLI}.json`;
+const leadsInstantlyPath = path.join(__dirname, "data/leads-activity", leadsInstantlyFileName);
+
 const logFileUpload = path.join(
   __dirname,
   "logs",
@@ -49,6 +55,7 @@ export default async function downloadLeadsActivity(campaign_id) {
 
   /** ========== Fetch Leads for Campaign ========== */
   let leads = null;
+  let all_leads = [];
   let starting_after = "";
   let total_leads = 0;
   log(`📥 Starting to fetch leads for campaign: ${CAMPAIGN_NAME}`);
@@ -99,6 +106,7 @@ export default async function downloadLeadsActivity(campaign_id) {
           }
         }
 
+        all_leads = [...all_leads, ...newLeads];
         // Increment the total count
         total_leads += newLeads.length;
       }
@@ -111,6 +119,24 @@ export default async function downloadLeadsActivity(campaign_id) {
     }
   }
 
+  /** ========== Save to File ========== */
+  const file_content = {
+    campaign_name: CAMPAIGN_NAME,
+    campaign_id: CAMPAIGN_ID,
+    leads: all_leads
+  }
+
+  try {
+    fs.writeFileSync(
+      leadsInstantlyPath,
+      JSON.stringify(file_content, null, 2),
+      "utf8"
+    );
+    log(`📁 Leads saved to: ${leadsInstantlyPath}`);
+  } catch (err) {
+    log(`❌ Failed to write leads to file: ${err.message}`);
+    return;
+  }
 
   /** ========== Summary ========== */
   log(`✅ Lead fetch complete. Total leads collected: ${total_leads}`);
@@ -139,3 +165,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const campaignIdFromCLI = process.argv[2];
   downloadLeadsActivity(campaignIdFromCLI);
 }
+
+
+// main(campaignIdFromCLI);
+// let CAMPAIGN_ID = `a51077ca-46bb-42f6-8e6d-154d598678a4`;
+// let CAMPAIGN_NAME = `Cold Educator A/B`;
+// let EMAIL = `firmansyah@elementaryschools.org`;
+// Get the 3rd argument (0 = node, 1 = instantly-download-leads.js, 2 = your parameter)

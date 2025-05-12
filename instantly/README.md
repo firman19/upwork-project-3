@@ -33,6 +33,14 @@ cd <project_directory>
 npm install
 
 ```
+Setup your MySQL database
+
+```
+DB_HOST=
+DB_USE=
+DB_PASSWORD
+DB_NAME=
+```
 
 ---
 

@@ -1,14 +1,40 @@
 import fs from "fs";
 import path from "path";
-import { apiZendesk } from "./services/http.js";
-import knexConfig from './knexfile.js';
+import { apiZendesk } from "../services/http.js";
+import knexConfig from '../knexfile.js';
 import Knex from 'knex';
 import { exit } from "process";
 
 const knex = Knex(knexConfig);
 
+const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
+
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
+fs.mkdirSync(path.join(__dirname, "data/leads"), { recursive: true });
+
+const logFile = path.join(
+  __dirname,
+  "logs",
+  `${today}_download-leads.log`
+);
+const logStream = fs.createWriteStream(logFile, { flags: "a" });
+
+const eduBusinessFilename = `${today}_edu_business.json`;
+const educatorFilename = `${today}_educator.json`;
+const vendorFilename = `${today}_vendor.json`;
+const postedJobFilename = `${today}_posted_job.json`;
+const postedEventFilename = `${today}_posted_event.json`;
+const investedAdFilename = `${today}_invested_ad.json`;
+const offeredDealFilename = `${today}_offered_deal.json`;
+
+const eduBusinessPath = path.join(__dirname, "data/leads", eduBusinessFilename);
+const educatorPath = path.join(__dirname, "data/leads", educatorFilename);
+const vendorPath = path.join(__dirname, "data/leads", vendorFilename);
+const postedJobPath = path.join(__dirname, "data/leads", postedJobFilename);
+const postedEventPath = path.join(__dirname, "data/leads", postedEventFilename);
+const investedAdPath = path.join(__dirname, "data/leads", investedAdFilename);
+const offeredDealPath = path.join(__dirname, "data/leads", offeredDealFilename);
 
 function log(message) {
   const timestamp = new Date().toISOString();
@@ -126,6 +152,43 @@ async function main() {
     page++;
     next_page = data?.meta.links?.next_page ?? false;
   }
+
+  // fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
+  fs.writeFileSync(
+    eduBusinessPath,
+    JSON.stringify(obj_userType_edu_business, null, 2),
+    "utf8"
+  );
+  fs.writeFileSync(
+    educatorPath,
+    JSON.stringify(obj_userType_educator, null, 2),
+    "utf8"
+  );
+  fs.writeFileSync(
+    vendorPath,
+    JSON.stringify(obj_userType_vendor, null, 2),
+    "utf8"
+  );
+  fs.writeFileSync(
+    postedJobPath,
+    JSON.stringify(obj_triggerType_posted_job, null, 2),
+    "utf8"
+  );
+  fs.writeFileSync(
+    investedAdPath,
+    JSON.stringify(obj_triggerType_invested_ad, null, 2),
+    "utf8"
+  );
+  fs.writeFileSync(
+    postedEventPath,
+    JSON.stringify(obj_triggerType_posted_event, null, 2),
+    "utf8"
+  );
+  fs.writeFileSync(
+    offeredDealPath,
+    JSON.stringify(obj_triggerType_offered_deal, null, 2),
+    "utf8"
+  );
 
   log(`✅ Finished. Total leads fetched: ${total_leads}`);
   log(`📁 Saved ${obj_userType_edu_business.length} to data/edu_business.json`);

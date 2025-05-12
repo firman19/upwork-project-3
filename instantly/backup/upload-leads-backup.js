@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { exit } from "process";
-import { Instantly } from "./services/instantly.js";
-import knexConfig from './knexfile.js';
+import { Instantly } from "../services/instantly.js";
+import knexConfig from '../knexfile.js';
 import Knex from 'knex';
 
 const knex = Knex(knexConfig);
@@ -14,6 +14,22 @@ fs.mkdirSync(path.join(__dirname, "data/leads"), { recursive: true });
 
 const logFileUpload = path.join(__dirname, "logs", `${today}_upload-leads.log`);
 const logUploadStream = fs.createWriteStream(logFileUpload, { flags: "a" });
+
+const eduBusinessFilename = `${today}_edu_business.json`;
+const educatorFilename = `${today}_educator.json`;
+const vendorFilename = `${today}_vendor.json`;
+const postedJobFilename = `${today}_posted_job.json`;
+const postedEventFilename = `${today}_posted_event.json`;
+const investedAdFilename = `${today}_invested_ad.json`;
+const offeredDealFilename = `${today}_offered_deal.json`;
+
+const eduBusinessPath = path.join(__dirname, "data/leads", eduBusinessFilename);
+const educatorPath = path.join(__dirname, "data/leads", educatorFilename);
+const vendorPath = path.join(__dirname, "data/leads", vendorFilename);
+const postedJobPath = path.join(__dirname, "data/leads", postedJobFilename);
+const postedEventPath = path.join(__dirname, "data/leads", postedEventFilename);
+const investedAdPath = path.join(__dirname, "data/leads", investedAdFilename);
+const offeredDealPath = path.join(__dirname, "data/leads", offeredDealFilename);
 
 const CAMPAIGN_EDU_JOB = process.env.CAMPAIGN_EDU_JOB || "";
 const CAMPAIGN_EVENT = process.env.CAMPAIGN_EVENT || "";
@@ -81,6 +97,7 @@ async function main() {
     // Job leads
     logUpload("Reading posted_job...");
     let jobData = await knex('leads').where('category', 'posted_job').select('*');
+    // const jobData = JSON.parse(fs.readFileSync(postedJobPath, "utf8"));
     results.job.read = jobData.length;
     logUpload(`✅ Read ${jobData.length} job leads`);
     if (jobData.length > 0) {
@@ -93,6 +110,7 @@ async function main() {
     // Event leads
     logUpload("Reading posted_event...");
     let eventData = await knex('leads').where('category', 'posted_event').select('*');
+    // const eventData = JSON.parse(fs.readFileSync(postedEventPath, "utf8"));
     results.event.read = eventData.length;
     logUpload(`✅ Read ${eventData.length} event leads`);
     if (eventData.length > 0) {
@@ -105,6 +123,7 @@ async function main() {
     // Ad leads
     logUpload("Reading invested_ad...");
     let adData = await knex('leads').where('category', 'invested_ad').select('*');
+    // const adData = JSON.parse(fs.readFileSync(investedAdPath, "utf8"));
     results.adverts.read = adData.length;
     logUpload(`✅ Read ${adData.length} ad leads`);
     if (adData.length > 0) {
@@ -117,6 +136,7 @@ async function main() {
     // Deal leads
     logUpload("Reading offered_deal...");
     let dealData = await knex('leads').where('category', 'offered_deal').select('*');
+    // const dealData = JSON.parse(fs.readFileSync(offeredDealPath, "utf8"));
     results.deals.read = dealData.length;
     logUpload(`✅ Read ${dealData.length} deal leads`);
     if (dealData.length > 0) {
@@ -129,6 +149,7 @@ async function main() {
     // Cold educator leads
     logUpload("Reading educator...");
     let coldEduData = await knex('leads').where('category', 'educator').select('*');
+    // coldEduData = JSON.parse(fs.readFileSync(educatorPath, "utf8"));
     results.educator.read = coldEduData.length;
     logUpload(`✅ Read ${coldEduData.length} cold educator leads`);
     if (coldEduData.length > 0) {
@@ -145,6 +166,7 @@ async function main() {
     // Vendor leads
     logUpload("Reading vendor...");
     let vendorData = await knex('leads').where('category', 'vendor').select('*');
+    // const vendorData = JSON.parse(fs.readFileSync(vendorPath, "utf8"));
     results.vendor.read = vendorData.length;
     logUpload(`✅ Read ${vendorData.length} vendor leads`);
     if (vendorData.length > 0) {
@@ -161,6 +183,7 @@ async function main() {
     // Edu business leads
     logUpload("Reading edu_business...");
     let businessData = await knex('leads').where('category', 'vendor').select('*');
+    // const businessData = JSON.parse(fs.readFileSync(eduBusinessPath, "utf8"));
     results.business.read = businessData.length;
     logUpload(`✅ Read ${businessData.length} business leads`);
     if (businessData.length > 0) {
