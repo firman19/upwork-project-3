@@ -7,8 +7,15 @@ import { exit } from "process";
 
 const knex = Knex(knexConfig);
 
+const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
+const logFileUpload = path.join(
+  __dirname,
+  "logs",
+  `${today}_download-leads.log`
+);
+const logStream = fs.createWriteStream(logFileUpload, { flags: "a" });
 
 function log(message) {
   const timestamp = new Date().toISOString();

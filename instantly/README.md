@@ -37,8 +37,8 @@ Setup your MySQL database
 
 ```
 DB_HOST=
-DB_USE=
-DB_PASSWORD
+DB_USER=
+DB_PASSWORD=
 DB_NAME=
 ```
 
