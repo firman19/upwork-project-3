@@ -25,7 +25,8 @@ function log(message) {
   logStream.write(fullMessage + "\n");
 }
 
-export default async function downloadLeadsActivity(campaign_id) {
+// export default async function downloadLeadsActivity(campaign_id) {
+async function downloadLeadsActivity(campaign_id) {
   if (!campaign_id) {
     log("❌ Error: campaign_id is required.");
     return;

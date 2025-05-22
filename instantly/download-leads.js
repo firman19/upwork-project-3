@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { apiZendesk } from "./services/http.js";
-import knexConfig from './knexfile.js';
-import Knex from 'knex';
+import knexConfig from "./knexfile.js";
+import Knex from "knex";
 import { exit } from "process";
 
 const knex = Knex(knexConfig);
@@ -46,7 +46,7 @@ async function main() {
     let data = null;
     try {
       const resp = await apiZendesk("get", `leads?${queryString}`);
-      data = resp.data
+      data = resp.data;
       if (data?.items) {
         log(`  → Retrieved ${data.items.length} items.`);
         total_leads += data.items.length;
@@ -61,12 +61,12 @@ async function main() {
             first_name: element.data.first_name,
             organization_name: element.data.organization_name,
             phone: element.data.phone,
-          }
+          };
 
           let userTypeArray = custom_fields?.["User Type"] || [];
           let userTypes;
           if (Array.isArray(userTypeArray)) {
-            userTypes = userTypeArray.map((t) => t.toLowerCase())
+            userTypes = userTypeArray.map((t) => t.toLowerCase());
           } else {
             userTypes = userTypeArray.toLowerCase();
           }
@@ -74,52 +74,54 @@ async function main() {
           let triggerTypeArray = custom_fields?.["Trigger type"] || [];
           let triggerTypes;
           if (Array.isArray(triggerTypeArray)) {
-            triggerTypes = triggerTypeArray.map((t) => t.toLowerCase())
+            triggerTypes = triggerTypeArray.map((t) => t.toLowerCase());
           } else {
             triggerTypes = triggerTypeArray.toLowerCase();
           }
 
           if (triggerTypes.includes("posted a job")) {
             obj_triggerType_posted_job.push(newElement);
-            newElement.category = 'posted_job'
+            newElement.category = "posted_job";
           }
 
           if (triggerTypes.includes("posted an event")) {
             obj_triggerType_posted_event.push(newElement);
-            newElement.category = 'posted_event'
+            newElement.category = "posted_event";
           }
 
           if (triggerTypes.includes("invested in an ad")) {
             obj_triggerType_invested_ad.push(newElement);
-            newElement.category = 'invested_ad'
+            newElement.category = "invested_ad";
           }
 
           if (triggerTypes.includes("offered a deal")) {
             obj_triggerType_offered_deal.push(newElement);
-            newElement.category = 'offered_deal'
+            newElement.category = "offered_deal";
           }
 
           if (!triggerTypes || triggerTypes.length == 0) {
             if (userTypes.includes("edu business")) {
               obj_userType_edu_business.push(newElement);
-              newElement.category = 'edu_business'
+              newElement.category = "edu_business";
             }
 
             if (userTypes.includes("educator")) {
               obj_userType_educator.push(newElement);
-              newElement.category = 'educator'
+              newElement.category = "educator";
             }
 
             if (userTypes.includes("vendor")) {
               obj_userType_vendor.push(newElement);
-              newElement.category = 'vendor'
+              newElement.category = "vendor";
             }
           }
 
           if (newElement.category) {
-            const existingLead = await knex('leads').where('email', newElement.email).first();
+            const existingLead = await knex("leads")
+              .where("email", newElement.email)
+              .first();
             if (!existingLead) {
-              await knex('leads').insert(newElement);
+              await knex("leads").insert(newElement);
             }
           }
         }
@@ -135,19 +137,13 @@ async function main() {
   }
 
   log(`✅ Finished. Total leads fetched: ${total_leads}`);
-  log(`📁 Saved ${obj_userType_edu_business.length} to data/edu_business.json`);
-  log(`📁 Saved ${obj_userType_educator.length} to data/educator.json`);
-  log(`📁 Saved ${obj_userType_vendor.length} to data/vendor.json`);
-  log(`📁 Saved ${obj_triggerType_posted_job.length} to data/posted_job.json`);
-  log(
-    `📁 Saved ${obj_triggerType_posted_event.length} to data/posted_event.json`
-  );
-  log(
-    `📁 Saved ${obj_triggerType_invested_ad.length} to data/invested_ad.json`
-  );
-  log(
-    `📁 Saved ${obj_triggerType_offered_deal.length} to data/offered_deal.json`
-  );
+  log(`📁 Saved ${obj_userType_edu_business.length} to edu_business`);
+  log(`📁 Saved ${obj_userType_educator.length} to educator`);
+  log(`📁 Saved ${obj_userType_vendor.length} to vendor`);
+  log(`📁 Saved ${obj_triggerType_posted_job.length} to posted_job`);
+  log(`📁 Saved ${obj_triggerType_posted_event.length} to posted_event`);
+  log(`📁 Saved ${obj_triggerType_invested_ad.length} to invested_ad`);
+  log(`📁 Saved ${obj_triggerType_offered_deal.length} to offered_deal`);
   log("============================");
 
   logStream.close();
@@ -155,3 +151,4 @@ async function main() {
 }
 
 export default main;
+main();

@@ -10,7 +10,6 @@ const today = new Date().toISOString().split("T")[0];
 const __dirname = path.resolve();
 
 fs.mkdirSync(path.join(__dirname, "logs"), { recursive: true });
-fs.mkdirSync(path.join(__dirname, "data/leads"), { recursive: true });
 
 const logFileUpload = path.join(__dirname, "logs", `${today}_upload-leads.log`);
 const logUploadStream = fs.createWriteStream(logFileUpload, { flags: "a" });
@@ -186,3 +185,4 @@ async function main() {
 }
 
 export default main;
+main();

@@ -43,15 +43,29 @@ DB_NAME=
 ```
 
 ---
+## 🔧 How to Run with Docker
 
-## 🔧 How to Run
+Run these commands:
+
+```
+docker compose build
+docker compose run --rm app npx knex migrate:latest
+docker compose run --rm app node download-leads.js 
+docker compose run --rm app node upload-leads.js 
+docker compose run --rm app node download-leads-activity.js <CAMPAIGN_ID>
+docker compose run --rm app node upload-leads-activity.js <CAMPAIGN_ID>
+```
+
+---
+
+## 🔧 How to Run without Docker
 
 ### Step 1: Download leads from Zendesk
 This command downloads leads from Zendesk and categorizes them into different files. 
 
 Usage:
 ```
-node main.js download-leads
+node download-leads.js
 ```
 
 ### Step 2: Upload leads to Instantly
@@ -59,7 +73,7 @@ This command uploads the categorized leads to Instantly.
 
 Usage:
 ```
-node main.js download-leads
+node upload-leads.js
 ```
 
 ### Step 3: Download lead activity from Instantly (replace {{CAMPAIGN_ID}} accordingly)
@@ -67,7 +81,7 @@ This command downloads the activity for leads in a given campaign. You must prov
 
 Usage:
 ```
-node main.js download-leads-activity.js <CAMPAIGN_ID>
+node download-leads-activity.js <CAMPAIGN_ID>
 ```
 
 ### Step 4: Upload lead activity to Zendesk (replace {{CAMPAIGN_ID}} accordingly)
@@ -75,7 +89,7 @@ This command uploads the activity of leads in a given campaign back to Zendesk. 
 
 Usage:
 ```
-node main.js upload-leads-activity.js <CAMPAIGN_ID>
+node upload-leads-activity.js <CAMPAIGN_ID>
 ```
 ---
 
@@ -84,7 +98,7 @@ To upload leads into Instantly, follow this 2-step process:
 ### 1. Download Leads from Zendesk
 - Reads all leads from Zendesk.
 - Categorizes leads based on defined criteria.
-- Saves leads in /data/leads/ directory, categorized into the following seven groups:
+- Saves leads in db table leads, categorized into the following seven groups:
     - edu_business
     - educator
     - invested_ad
@@ -93,17 +107,17 @@ To upload leads into Instantly, follow this 2-step process:
     - posted_job
     - vendor
 ### 2. Upload Leads to Instantly
-- Reads the categorized lead files from /data/leads/.
-- Each file is mapped to a corresponding campaign in Instantly:
-| Category      | Instantly Campaign       |
-| ------------- | ------------------------ |
-| edu\_business | `CAMPAIGN_EDU_BUSINESS`  |
-| educator      | `CAMPAIGN_COLD_EDUCATOR` |
-| invested\_ad  | `CAMPAIGN_EDU_ADVERTS`   |
-| offered\_deal | `CAMPAIGN_EDU_DEALS`     |
-| posted\_event | `CAMPAIGN_EVENT`         |
-| posted\_job   | `CAMPAIGN_EDU_JOB`       |
-| vendor        | `CAMPAIGN_VENDOR_ADVERT` |
+- Reads the categorized lead from database.
+- Each lead is mapped to a corresponding campaign in Instantly:
+| Category     | Instantly Campaign       |
+| ------------ | ------------------------ |
+| edu_business | `CAMPAIGN_EDU_BUSINESS`  |
+| educator     | `CAMPAIGN_COLD_EDUCATOR` |
+| invested_ad  | `CAMPAIGN_EDU_ADVERTS`   |
+| offered_deal | `CAMPAIGN_EDU_DEALS`     |
+| posted_event | `CAMPAIGN_EVENT`         |
+| posted_job   | `CAMPAIGN_EDU_JOB`       |
+| vendor       | `CAMPAIGN_VENDOR_ADVERT` |
 
 ---
 ## 📥 Uploading Leads' Activity (Instantly ➡️ Zendesk)
@@ -112,9 +126,9 @@ To update Zendesk with lead activity from Instantly, follow these two steps:
 ### 1. Download Lead Activity from Instantly
 - Fetch campaign details based on the provided CAMPAIGN_ID.
 - Retrieve leads and their activity for the campaign.
-- Store results in /data/leads-activity/{{CAMPAIGN_ID}}.json.
+- Store results in db table leads_activity.
 ### 2. Upload Lead Activity to Zendesk
-- Read data from /data/leads-activity/{{CAMPAIGN_ID}}.json.
+- Read data from db table leads_activity.
 - For each lead:
     - Fetch the lead’s detail from Zendesk.
     - Determine the lead owner’s email.
@@ -124,14 +138,9 @@ To update Zendesk with lead activity from Instantly, follow these two steps:
 ## 📁 Directory Structure
 ```
 project-root/
-├── data/
-│   ├── leads/
-│   │   ├── {{date}}_edu_business.json
-│   │   ├── {{date}}_educator.json
-│   │   └── ... 
-│   └── leads-activity/
-│       ├── {{date}}_{{campaign_id}}.json
-│       └── ...
+├── logs/
+│   └── {{YYYY-MM-DD}}_download-leads.log
+│   └── {{YYYY-MM-DD}}_upload-leads.log
 ├── services/samples
 ├── services/
 │   ├── helpers.js
@@ -147,3 +156,4 @@ project-root/
 ---
 ## Logging
 The application logs important events to the console, so you can monitor the progress, success, and failure of each step. Errors will be reported with details to help in debugging.
+Logs are stored in directory ./logs
