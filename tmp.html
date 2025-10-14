@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #{{ $invoice_number }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #333;
+            background: white;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 20px;
+        }
+
+        .company-info {}
+
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .company-details {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .invoice-info {}
+
+        .invoice-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .invoice-details {
+            color: #666;
+        }
+
+        .invoice-details div {
+            margin-bottom: 3px;
+        }
+
+        .billing-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .billing-info {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .billing-details {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .items-table th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-weight: bold;
+            padding: 12px 8px;
+            text-align: left;
+            border: 1px solid #dee2e6;
+        }
+
+        .items-table td {
+            padding: 12px 8px;
+            border: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+
+        .items-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .totals-section {
+            margin-top: 8px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .totals-table {
+            width: 300px;
+            border-collapse: collapse;
+        }
+
+        .totals-table td {
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+        }
+
+        .totals-table .label {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .totals-table .amount {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .total-row {
+            background-color: #2c3e50;
+            color: white;
+            font-size: 14px;
+        }
+
+        .total-row .label,
+        .total-row .amount {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .footer {
+            margin-top: 120px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+            font-size: 11px;
+        }
+
+        .footer p {
+            margin-bottom: 5px;
+        }
+
+
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice-container">
+
+        <table style=" width: 100%;border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td style="width: 55%;">
+                        Logo disini
+                    </td>
+                    <td style="width: 45%;">
+                        Tax Academy HeadQuarter
+                        <br>
+                        EduCenter (Education Mall BSD), Lantai 2,<br>
+                        Jl. Sekolah Foresta No 8, BSD City Kec.<br>
+                        Pagedangan, Kabupaten Tangerang, Banten<br>
+                        15331
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <div class="invoice-title">INVOICE</div>
+        <table style=" width: 100%;border-collapse: collapse;">
+            <tbody>
+                <tr>
+                    <td style="width: 55%;">
+                        {{ $user->name }}
+                    </td>
+                    <td style="width: 15%;">
+                        Order Number:
+                    </td>
+                    <td style="width: 30%;">
+                        {{ $order->id }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 55%;">
+                        {{ $user->email }}
+                    </td>
+                    <td style="width: 15%;">
+                        Order Date:
+                    </td>
+                    <td style="width: 30%;">
+                        2025-10-08
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 55%;">
+                        {{ $user->phone }}
+                        @if($user->full_address && $user->village && $user->district && $user->regency && $user->province)
+                        <br />
+                        {{ $user->full_address }} <br />
+                        {{ $user->village }} <br />
+                        {{ $user->district }} <br />
+                        {{ $user->regency }} <br />
+                        {{ $user->province }}
+                        @endif
+                    </td>
+                    <td style="width: 15%;">
+                        Payment Method:
+                    </td>
+                    <td style="width: 30%;">
+                        Transfer Bank lainnya,
+                        Gopay, atau Kartu
+                        Kredit.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th style="width: 55%;">Product</th>
+                    <th style="width: 15%;" class="text-center">Qty</th>
+                    <th style="width: 15%;" class="text-right">Unit Price</th>
+                    <th style="width: 15%;" class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($orderItems as $index => $item)
+                <tr>
+                    <td>
+                        <div class="item-name">{{ $item->product_name }}</div>
+
+                        @if($item->short_summary)
+                        <div class="item-description">{{ $item->short_summary }}</div>
+                        @endif
+
+                        @if($item->variation_values)
+                        <div class="item-description">
+                            @foreach($item->variation_values as $key => $value)
+                            <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong> {{ ucfirst(str_replace('_', '
+                            ', $value)) }}
+                            @if(!$loop->last), @endif
+                            @endforeach
+                        </div>
+                        @endif
+                    </td>
+                    <td class="text-center">{{ $item->quantity }}</td>
+                    <td class="text-right">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
+                    <td class="text-right">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <!-- Totals Section -->
+        <div class="totals-section" style="text-align: right;">
+            <table class="totals-table">
+                <tr>
+                    <td class="label">Subtotal:</td>
+                    <td class="amount">Rp {{ number_format($subtotal, 0, ',', '.') }}</td>
+                </tr>
+
+            
+
+                <tr class="total-row">
+                    <td class="label">Total:</td>
+                    <td class="amount">Rp {{ number_format($total, 0, ',', '.') }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>
+                Kami mengucapkan terima kasih atas kepercayaannya menggunakan Layanan kami. Dokumen dicetak secara
+                otomatis melalui sistem, tidak memerlukan tanda tangan, dan merupakan bukti pembayaran atas Layanan yang
+                dipilih. Jika terdapat detail data yang belum sesuai silahkan dapat menghubungi customer
+                support.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
